@@ -23,13 +23,22 @@
 		<a href="#">
 			<i class="fa fa-file-text-o"></i> <span>Producten</span> <i class="fa fa-angle-left pull-right"></i>
 		</a>
-		<ul class="treeview-menu">
+		<!-- <ul class="treeview-menu">
             <li><a href="/admin/showAllPriceLists"><i class="fa fa-circle-o text-success"></i> Prijslijsten weergeven</a></li>
 			<li><a href="/admin/showAllProducts"><i class="fa fa-circle-o text-success"></i> Producten weergeven</a></li>
 			<li><a href="{{route('admin.product.create')}}"><i class="fa fa-plus text-danger"></i> Product toevoegen</a></li>
 			<li><a href="/admin/category"><i class="fa fa-circle-o text-success"></i> Product categorieën</a></li>
 			<li><a href="/admin/editColor"><i class="fa fa-circle-o text-success"></i> Kleuren</a></li>
 			<li><a href="/admin/editCoating"><i class="fa fa-circle-o text-success"></i> Coatings</a></li>
+		</ul> -->
+		<ul class="treeview-menu">
+            <li><a href="{{ url('admin/showAllPriceLists') }}"><i class="fa fa-circle-o text-success"></i> Prijslijsten weergeven</a></li>
+            <li><a href="{{route('admin.showAllPriceLists.create')}}"><i class="fa fa-plus text-danger"></i> Create Price List</a></li>
+			<li><a href="{{ url('admin/showAllProducts') }}"><i class="fa fa-circle-o text-success"></i> Producten weergeven</a></li>
+			<li><a href="{{route('admin.product.create')}}"><i class="fa fa-plus text-danger"></i> Product toevoegen</a></li>
+			<li><a href="{{ url('admin/category') }}"><i class="fa fa-circle-o text-success"></i> Product categorieën</a></li>
+			<li><a href="{{ url('admin/editColor') }}"><i class="fa fa-circle-o text-success"></i> Kleuren</a></li>
+			<li><a href="{{ url('admin/editCoating') }}"><i class="fa fa-circle-o text-success"></i> Coatings</a></li>
 		</ul>
 	</li>
 	<li class="treeview @if(request()->segment(2) == 'page') active @endif">

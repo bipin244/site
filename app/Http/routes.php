@@ -43,7 +43,7 @@ Route::get('/promotionPage', 'PostController@promotionPage');
 Route::get('/admin/configUpdate', 'PostController@configUpdate');
 Route::get('/admin/configuration', 'PostController@adminConfiguration');
 Route::get('/admin/langupdate', 'PostController@langUpdate');
-Route::get('/admin/showAllPriceLists','Admin\PriceListController@allPriceLists');
+//Route::get('/admin/showAllPriceLists','Admin\PriceListController@allPriceLists');
 Route::get('/user/activateUser/{id}/{key}/{rawpass}', 'PostController@activateUser');
 Route::get('/updateCoating', 'Admin\ProductController@updateCoating');
 Route::get('/updateCategory', 'Admin\ProductController@updateCategory');
@@ -82,7 +82,8 @@ Route::group(['middleware' => ['web'] ], function () {
         Route::resource('user', 	'Admin\UserController');
         Route::resource('post', 	'Admin\PostController');
         Route::resource('page', 	'Admin\PageController');
-        Route::resource('product', 	'Admin\ProductController');
+        Route::resource('product',  'Admin\ProductController');
+        Route::resource('showAllPriceLists','Admin\PriceListController');
         Route::get('/category', 'Admin\CategoryController@index');
         Route::post('/category/update', 'Admin\CategoryController@update');
         Route::post('/category/order', 'Admin\CategoryController@updateOrder');
