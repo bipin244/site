@@ -3,13 +3,19 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Dashboard</title>
-	<link rel="stylesheet" href="{{url('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css')}}">
-	<link rel="stylesheet" href="{{url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css')}}">
-	<link rel="stylesheet" href="{{url('https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css')}}">
-	<link rel="stylesheet" href="{{url('https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.3/css/AdminLTE.min.css')}}">
-	<link rel="stylesheet" href="{{url('https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.3/css/skins/_all-skins.css')}}">
+  <!-- <link rel="stylesheet" href="{{url('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/')}}"> -->
+  <link rel="stylesheet" href="{{ URL::to('css/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ URL::to('css/font-awesome.min.css') }}">
+  <link rel="stylesheet" href="{{ URL::to('css/ionicons.min.css') }}">
+  <link rel="stylesheet" href="{{ URL::to('css/AdminLTE.min.css') }}">
+	<link rel="stylesheet" href="{{ URL::to('css/_all-skins.css') }}">
+	<!-- <link rel="stylesheet" href="{{url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css')}}"> -->
+	<!-- <link rel="stylesheet" href="{{url('https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css')}}"> -->
+	<!-- <link rel="stylesheet" href="{{url('https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.3/css/AdminLTE.min.css')}}"> -->
+	<!-- <link rel="stylesheet" href="{{url('https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.3/css/skins/_all-skins.css')}}"> -->
     <link href="{{URL::asset('css/stijl.css')}}" rel="stylesheet">
-	<script type="text/javascript" src="{{url('https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js')}}"></script>
+  <!-- <script type="text/javascript" src="{{url('https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js')}}"></script> -->
+	<script type="text/javascript" src="{{URL::to('js/jquery.min.js')}}"></script>
 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -241,9 +247,13 @@
            immediately after the control sidebar -->
       <div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->
-    <script type="text/javascript" src="{{url('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js')}}"></script>
-    <script type="text/javascript" src="{{url('https://cdnjs.cloudflare.com/ajax/libs/jQuery-slimScroll/1.3.7/jquery.slimscroll.min.js')}}"></script>
-    <script type="text/javascript" src="{{url('https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js')}}"></script>
-    <script type="text/javascript" src="{{url('https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.3/js/app.min.js')}}"></script>
+    <!-- <script type="text/javascript" src="{{url('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js')}}"></script> -->
+    <script type="text/javascript" src="{{URL::to('js/bootstrap.min.js')}}"></script>
+    <script type="text/javascript" src="{{URL::to('js/jquery.slimscroll.min.js')}}"></script>
+    <script type="text/javascript" src="{{URL::to('js/fastclick.min.js')}}"></script>
+    <script type="text/javascript" src="{{URL::to('js/app.min.js')}}"></script>
+   <!--  <script type="text/javascript" src="{{url('https://cdnjs.cloudflare.com/ajax/libs/jQuery-slimScroll/1.3.7/jquery.slimscroll.min.js')}}"></script> -->
+    <!-- <script type="text/javascript" src="{{url('https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js')}}"></script> -->
+    <!-- <script type="text/javascript" src="{{url('https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.3/js/app.min.js')}}"></script> -->
 </body>
 </html>

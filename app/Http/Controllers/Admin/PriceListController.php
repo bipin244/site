@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
 use App\PriceList;
+use App\ProductPriceList;
 use App\ProductParam;
 use Validation;
 use Auth;
@@ -32,7 +33,37 @@ class PriceListController extends Controller
 
     public function store(Request $request){
         $input = $request->all();
-        echo "<pre>";
-        print_r($input);exit;
+        $Priority = '0';
+        if($input['PriorityCheckbox'] == true){
+            $Priority = '1';  
+        }
+        $priceList = new PriceList();
+        $priceList->name = $input['name'];
+        $priceList->Priority = $Priority;
+        if($priceList->save()){
+            $error = false;
+            $priceListId =$priceList->id;
+            if(isset($input['price'])){
+
+                foreach ($input['price'] as $key => $value) {
+                    $ProductPriceList = new ProductPriceList();
+                    $ProductPriceList->price_list_id = $priceListId;
+                    $ProductPriceList->productNr = $key;
+                    $ProductPriceList->priority = $Priority;
+                    $ProductPriceList->price = $value;
+                    if(!$ProductPriceList->save()){
+                        $error = true;
+                    }
+                }
+            }
+        }else{
+            return redirect()->route('admin.showAllPriceLists.create')->with('error', 'Something wrong!');
+        }
+        if($error){
+            return redirect()->route('admin.showAllPriceLists.create')->with('error', 'Something wrong!');
+        }else{
+            session()->flash('msg','Hey, You have a message to read');
+            return redirect()->route('admin.showAllPriceLists.index')->with('success', 'Successfully added!');
+        }
     }
 }

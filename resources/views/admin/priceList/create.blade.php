@@ -2,15 +2,17 @@
 @section('content')
 	<!-- Default box -->
 	@include('messages')
+
 	<div class="box">
 		<div class="box-header with-border">
 		  <h3 class="box-title">Add a price List</h3>
 		</div><!-- /.box-header -->
 		<div class="box-body">
-		    <form action="{{route('admin.showAllPriceLists.store')}}" role="form" class="form" method="post">
+		    <form id="priceForm" action="{{route('admin.showAllPriceLists.store')}}" role="form" class="form" method="post">
 		    	<input type="hidden" name="_token" value="{{csrf_token()}}">
 		        <!-- text input -->
 		        <div class="row form-group">
+		        	<input type="hidden" id="PriorityCheckbox" name="PriorityCheckbox" value="false">
 		        	<div class="col-md-10">
 	          			<label for="name">Name<span class="text text-danger">*</span></label>
 	          			<input id="name" name="name" type="text" class="form-control" placeholder="Price list name" value="{{old('name')}}" />
@@ -51,7 +53,7 @@
                     </tbody>
                 </table>
 		        <a href="{{route('admin.showAllPriceLists.index')}}" class="btn btn-default">Back</a>
-		        <button type="submit" class="btn btn-sml btn-primary">Submit</button>
+		        <button type="button" class="btn btn-sml btn-primary submitForm">Submit</button>
 		    </form>
 		</div><!-- /.box-body -->
 	</div><!-- /.box -->
@@ -59,7 +61,7 @@
     <script src="{{URL::asset('js/dataTables.bootstrap.min.js')}}"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$('#bootstrapDataTable').DataTable({
+			var table = $('#bootstrapDataTable').DataTable({
                 "bLengthChange": true,
                 "bPaginate": false,
                 "bInfo" : false,
@@ -88,7 +90,15 @@
 		    		$("#price_"+id).val('0');
 		    		$("#price_"+id).prop("disabled", true);
 		    	}
-		    })
+		    });
+		    $('.submitForm').click(function(){
+				table
+				 .search( '' )
+				 .columns().search( '' )
+				 .draw();
+				$("#PriorityCheckbox").val($("#ispriority").prop("checked"));
+				$("#priceForm").submit();
+		    });
 		});
 	</script>
 @endsection

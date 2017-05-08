@@ -3,6 +3,12 @@
 	<!-- Default box -->
     @include('messages')
     <div class="box">
+        @if(Session::has('msg'))
+            {{Session::get('msg')}}
+        @endif
+        <!-- <ul class="list-unstyled">
+            <li class="alert alert-success">HELLO<button type="button" class="close" data-dismiss="alert">&times;</button></li>
+        </ul> -->
         <div class="box-header">
             <h3 class="box-title">Price List</h3>
         </div><!-- /.box-header -->
