@@ -62,7 +62,49 @@ class PriceListController extends Controller
         if($error){
             return redirect()->route('admin.showAllPriceLists.create')->with('error', 'Something wrong!');
         }else{
-            session()->flash('msg','Hey, You have a message to read');
+            return redirect()->route('admin.showAllPriceLists.index')->with('success', 'Successfully added!');
+        }
+    }
+    public function edit($id){
+        $priceList = PriceList::find($id);
+        $productpriceList = ProductPriceList::where('price_list_id',$id)->get();
+        $productNr  = ProductParam::get(['Id','productNr']);
+        return view('admin.priceList.edit')->with('priceList', $priceList )->with('productpriceList', $productpriceList )->with('productNr', $productNr  );
+    }
+
+    public function update(Request $request,$id){
+        $input = $request->all();
+        $Priority = '0';
+        if($input['PriorityCheckbox'] == 'true'){
+            $Priority = '1';  
+        }
+        $priceList = PriceList::where('Id',$id)->update(['name' => $input['name'],'Priority' => $Priority]);
+        if($priceList){
+            $error = false;
+            if(isset($input['price'])){
+                foreach ($input['price'] as $key => $value) {
+                    $ProductPriceList = ProductPriceList::where('price_list_id',$id)->where('productNr',$key)->count();
+                    if($ProductPriceList == 0){
+                        $ProductPriceList = new ProductPriceList();
+                        $ProductPriceList->price_list_id = $id;
+                        $ProductPriceList->productNr = $key;
+                        $ProductPriceList->priority = $Priority;
+                        $ProductPriceList->price = $value;
+                        if(!$ProductPriceList->save()){
+                            $error = true;
+                        }
+                    }else{
+                        ProductPriceList::where('price_list_id',$id)->where('productNr',$key)->update(['price' => $value,'priority' => $Priority]);
+                    }
+                    
+                }
+            }
+        }else{
+            return redirect()->route('admin.showAllPriceLists.edit')->with('error', 'Something wrong!');
+        }
+        if($error){
+            return redirect()->route('admin.showAllPriceLists.edit')->with('error', 'Something wrong!');
+        }else{
             return redirect()->route('admin.showAllPriceLists.index')->with('success', 'Successfully added!');
         }
     }
