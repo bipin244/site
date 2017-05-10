@@ -3,9 +3,6 @@
 	<!-- Default box -->
     @include('messages')
     <div class="box">
-        @if(Session::has('msg'))
-            {{Session::get('msg')}}
-        @endif
         <!-- <ul class="list-unstyled">
             <li class="alert alert-success">HELLO<button type="button" class="close" data-dismiss="alert">&times;</button></li>
         </ul> -->
@@ -23,7 +20,7 @@
                           <td><a href="{{route('admin.showAllPriceLists.edit', $page->Id)}}">{{$page->name}}</a></td>
                           <td>
                                 <a href="{{route('admin.showAllPriceLists.edit', $page->Id)}}" class="btn btn-sml btn-primary"><i class="fa fa-pencil"></i> Edit Price List</a>
-                                <a href="{{route('admin.showAllPriceLists.edit', $page->Id)}}" class="btn btn-sml btn-primary"><i class="fa fa-pencil"></i> Add User</a>
+                                <a href="{{route('admin.showAllPriceLists.user', $page->Id)}}" class="btn btn-sml btn-primary"><i class="fa fa-pencil"></i> Add User</a>
                           	</td>
                         </tr>
                     @endforeach

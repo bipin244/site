@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
 use App\PriceList;
+use App\Visitor;
 use App\ProductPriceList;
 use App\ProductParam;
 use Validation;
@@ -62,8 +63,46 @@ class PriceListController extends Controller
         if($error){
             return redirect()->route('admin.showAllPriceLists.create')->with('error', 'Something wrong!');
         }else{
-            return redirect()->route('admin.showAllPriceLists.index')->with('success', 'Successfully added!');
+            return redirect()->route('admin.showAllPriceLists.index')->with('success', 'Successfully added price list!');
         }
+    }
+    public function getUser($id){
+        $priceList = PriceList::where('Id',$id)->get(['Id','name']);
+        $data = Visitor::where('activated','1')->get(['bedrijfsnaam','priceListId','id']);
+        return view('admin.priceList.addUser', ['data' => $data, 'priceList' => $priceList[0]]);
+    }
+    public function addUser(Request $request){
+        $input = $request->all();
+        $success = "false";
+        $userIds = explode(',', $input['selectedUserId'][0]);
+
+        if($input['selectedUserId'][0]){
+            foreach ($userIds as $key => $value) {
+                $data = Visitor::where('id',$value)->get(['priceListId']);
+                $oldPriceListId = $data[0]['priceListId'];
+                if($oldPriceListId == ""){
+                    $newPriceListId = $input['priceId'];
+                }else{
+                    if (!preg_match('/\b' . $input['priceId'] . '\b/', $oldPriceListId)) { 
+                        $newPriceListId = $oldPriceListId.','.$input['priceId'];
+                    }else{
+                        $newPriceListId = $oldPriceListId;
+                    }
+                }
+                $updateData = Visitor::where('id',$value)->update(['priceListId'=>$newPriceListId,'updated_at'=>date('Y-m-d H:i:s') ]);
+                if(!$updateData){
+                    $success = "true";
+                }
+            }
+        }else{
+            return redirect()->route('admin.showAllPriceLists.user',$input['priceId'])->with('error', 'Something wrong!');
+        }
+        if($success == "true"){
+            return redirect()->route('admin.priceList.addUser',$input['priceId'])->with('error', 'Something wrong!');
+        }else{
+            return redirect()->route('admin.showAllPriceLists.index')->with('success', 'Successfully added user!');
+        }
+
     }
     public function edit($id){
         $priceList = PriceList::find($id);
@@ -105,7 +144,7 @@ class PriceListController extends Controller
         if($error){
             return redirect()->route('admin.showAllPriceLists.edit')->with('error', 'Something wrong!');
         }else{
-            return redirect()->route('admin.showAllPriceLists.index')->with('success', 'Successfully added!');
+            return redirect()->route('admin.showAllPriceLists.index')->with('success', 'Successfully edited price list!');
         }
     }
 }

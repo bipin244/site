@@ -12,7 +12,7 @@ class Visitor extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'slug', 'description', 'status'];
+    protected $fillable = ['name', 'slug', 'description', 'status','priceListId'];
 
     /**
      * The attributes that are mass assignable.

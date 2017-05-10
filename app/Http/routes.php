@@ -83,7 +83,7 @@ Route::group(['middleware' => ['web'] ], function () {
         Route::resource('post', 	'Admin\PostController');
         Route::resource('page', 	'Admin\PageController');
         Route::resource('product',  'Admin\ProductController');
-        Route::resource('showAllPriceLists','Admin\PriceListController');
+       
         Route::get('/category', 'Admin\CategoryController@index');
         Route::post('/category/update', 'Admin\CategoryController@update');
         Route::post('/category/order', 'Admin\CategoryController@updateOrder');
@@ -93,5 +93,9 @@ Route::group(['middleware' => ['web'] ], function () {
         Route::resource('editCoating', 'Admin\PageController@coatings');
     });
 });
-
+Route::group(['prefix' => 'admin', 'middleware' => ['auth'] ], function () {
+    Route::resource('showAllPriceLists','Admin\PriceListController');
+    Route::get('showAllPriceLists/User/{id}', [ 'as' => 'admin.showAllPriceLists.user', 'uses' => 'Admin\PriceListController@getUser']);
+    Route::post('showAllPriceLists/addUser', [ 'as' => 'admin.showAllPriceLists.addUser', 'uses' => 'Admin\PriceListController@addUser']);
+});
 Route::resource('/{slug}/{lang?}', 'PageController@show');
