@@ -191,7 +191,9 @@
 
 
         var clickCategorie = "<?php echo Session::get('clickedCategory');?>";
-        $("#" + clickCategorie).collapse();
+        if(clickCategorie !=""){
+            $("#" + clickCategorie).collapse();
+        }
         var clickSubCategorie = "<?php echo Session::get('clickedSubCategory');?>";
         var clickSubCategorieId = "<?php echo Session::get('clickedSubCategoryId');?>";
 

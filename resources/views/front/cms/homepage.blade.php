@@ -23,7 +23,7 @@
                             @foreach($categories as $category)
                                 <li class="margintrue">
                                     <label>
-                                        <a href="/subCategoryShow/{{$category->id}}/{{$tellerFilter}}" data-toggle="collapse" data-target="#{{$tellerFilter}}" class="collapsed" data-param-id="{{$category->id}}" aria-expanded="false"><?php echo $category->{'naam_' . $lang};?>@if($category->subCategories != null)<i class="fa fa-plus" style="margin-left:10px;"></i>@endif</a>
+                                        <a href="{{ url('/subCategoryShow')}}/{{$category->id}}/{{$tellerFilter}}" data-toggle="collapse" data-target="#{{$tellerFilter}}" class="collapsed" data-param-id="{{$category->id}}" aria-expanded="false"><?php echo $category->{'naam_' . $lang};?>@if($category->subCategories != null)<i class="fa fa-plus" style="margin-left:10px;"></i>@endif</a>
                                     </label>
                                     @if($category->subCategories != null)
                                         <ul id="{{$tellerFilter}}" data-param-id="{{$category->id}}" class="collapseItem collapse" aria-expanded="false" style="height: 0px;">
@@ -35,7 +35,7 @@
                                                         <?php if(sizeof($subCategory->subCategories) == 0){?>
                                                         <li><a href="#" data-param-id="{{$subCategory->id}}"><?php echo $subCategory->{'naam_' . $lang};?><span></span></a></li>
                                                         <?php }else{?>
-                                                        <a href="/subSubCategoryShow/{{$subCategory->id}}/{{$tellerFilterSub}}" data-toggle="collapse" data-target="#{{$tellerFilterSub}}" class="collapsed" data-param-id="{{$category->id}}" aria-expanded="false"><?php echo $subCategory->{'naam_' . $lang};?>@if($subCategory->subCategories != null)<i class="fa fa-plus" style="margin-left:10px;"></i>@endif</a>
+                                                        <a href="{{ url('/subSubCategoryShow')}}/{{$subCategory->id}}/{{$tellerFilterSub}}" data-toggle="collapse" data-target="#{{$tellerFilterSub}}" class="collapsed" data-param-id="{{$category->id}}" aria-expanded="false"><?php echo $subCategory->{'naam_' . $lang};?>@if($subCategory->subCategories != null)<i class="fa fa-plus" style="margin-left:10px;"></i>@endif</a>
                                                         <ul id="{{$tellerFilterSub}}" data-param-id="{{$subCategory->id}}" class="collapseItem collapse" aria-expanded="false" style="height: 0px;">
                                                             @foreach($subCategory->subCategories as $subSubCategory)
                                                                 <div class="checkbox categories" style="margin-left:10px;">
@@ -102,9 +102,9 @@
                                                                         <i class="fa fa-shopping-cart"></i><a href="" class="hidden-sm addToCart" data-product-nr="{{$product->productNr}}">In offertemand</a></p>
                                                                     <p class="btn-details">
                                                                         <?php if ($product->productNr == "") {?>
-                                                                            <i class="fa fa-list"></i><a class="hidden-sm" href="/productdetailsSubProduct/{{$product->product_id}}/{{$product->product_productNr}}">Bekijk details</a></p>;
+                                                                            <i class="fa fa-list"></i><a class="hidden-sm" href="{{ url('/productdetailsSubProduct')}}/{{$product->product_id}}/{{$product->product_productNr}}">Bekijk details</a></p>;
                                                                         <?php } else {?>
-                                                                            <i class="fa fa-list"></i><a class="hidden-sm" href="/productdetailsSubProduct/{{$product->product_id}}/{{$product->productNr}}">Bekijk details</a></p>;
+                                                                            <i class="fa fa-list"></i><a class="hidden-sm" href="{{ url('/productdetailsSubProduct')}}/{{$product->product_id}}/{{$product->productNr}}">Bekijk details</a></p>;
                                                                         <?php }?>
                                                                 </div>
                                                                 <div class="clearfix">
@@ -141,9 +141,9 @@
                                                                     <i class="fa fa-shopping-cart"></i><a href="" class="hidden-sm addToCart" data-product-nr="{{$product->productNr}}">In offertemand</a></p>
                                                                 <p class="btn-details">
                                                                     <?php if ($product->productNr == "") {?>
-                                                                        <i class="fa fa-list"></i><a class="hidden-sm" href="/productdetailsSubProduct/{{$product->product_id}}/{{$product->product_productNr}}">Bekijk details</a></p>;
+                                                                        <i class="fa fa-list"></i><a class="hidden-sm" href="{{ url('/productdetailsSubProduct')}}/{{$product->product_id}}/{{$product->product_productNr}}">Bekijk details</a></p>;
                                                                     <?php } else {?>
-                                                                        <i class="fa fa-list"></i><a class="hidden-sm" href="/productdetailsSubProduct/{{$product->product_id}}/{{$product->productNr}}">Bekijk details</a></p>;
+                                                                        <i class="fa fa-list"></i><a class="hidden-sm" href="{{ url('/productdetailsSubProduct')}}/{{$product->product_id}}/{{$product->productNr}}">Bekijk details</a></p>;
                                                                     <?php }?>
                                                             </div>
                                                             <div class="clearfix">
