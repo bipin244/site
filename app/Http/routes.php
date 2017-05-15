@@ -11,9 +11,10 @@
 |
 */
 
-Route::get('/', 'PageController@index');
-Route::get('/subCategoryShow/{id}/{clickedCategory}', 'PageController@subCategoryShow');
-Route::get('/subcategoryFilter/{id}', 'PageController@subCategoryFilter');
+Route::get('/', ['uses' => 'PageController@index', 'as' => '/home']);
+Route::get('/subCategoryShow/{id}/{clickedCategory}', ['uses' => 'PageController@subCategoryShow', 'as' => 'subCategoryShow']);
+
+Route::get('/subcategoryFilter/{id}', ['uses' => 'PageController@subCategoryFilter', 'as' => 'subcategoryFilter']);
 Route::get('/subSubCategoryShow/{id}/{clickedCategory}','PageController@subSubCategoryShow');
 Route::get('/filteredProductsPOST', 'PageController@filteredProductsPOST');
 Route::get('/productdetailsSubProduct/{productId}/{productNr}','PageController@productDetailsSub');

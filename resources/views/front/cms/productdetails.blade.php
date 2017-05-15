@@ -255,7 +255,7 @@
                     });
                     $.ajax({
                         type: "GET",
-                        url: "/getRelatedItems",
+                        url: "{{ url('/getRelatedItems')}}",
                         data: {"productNr": paramsSelected[0].productNr,"productId": paramsSelected[0].productId},
                         cache: false,
                         success: function(data){

@@ -66,6 +66,8 @@
             <div class="row spacersmall"></div>
             <div class="panel panel-default">
                 <div class="panel-heading filterheading">Nieuwe producten</div>
+                {!! Breadcrumbs::render('Home') !!}
+
                 <div class="panel-body">
                     <div class="newproductcontainer">
                         <div id="carousel-example-generic" class="carousel slide hidden-xs" data-ride="carousel">

@@ -60,7 +60,7 @@
                     </div>
                 </div>
             </div>
-            <div id="allproductscontainer" class="col-md-9">
+            <div id="allproductscontainer" class="col-md-9 1">
                 <?php $teller = 1;?>
                 @foreach($selectedCategories as $selectedCategory)
                     <?php if($teller > 1){?>

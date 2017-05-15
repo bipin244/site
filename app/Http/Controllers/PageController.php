@@ -630,6 +630,7 @@ class PageController extends Controller
 
     public function filteredProductsPOST(Request $request)
     {
+        $url = url('/');
         $languageSession = Session::get('lang', 'nl');
         if ($languageSession != 'nl' || $languageSession != 'de' || $languageSession != 'en' || $languageSession != 'fr') {
             $languageSession = 'nl';
@@ -841,9 +842,9 @@ class PageController extends Controller
                         }*/
                         $html .= '<div class="col-md-4">';
                         if ($product->productNr == "" || $product->productNr == null) {
-                            $html .= '<a href="/productdetailsSubProduct/' . $product->product_id . '/' . $product->product_productNr . '">';
+                            $html .= '<a href="'.$url.'/productdetailsSubProduct/' . $product->product_id . '/' . $product->product_productNr . '">';
                         } else {
-                            $html .= '<a href="/productdetailsSubProduct/' . $product->product_id . '/' . $product->productNr . '">';
+                            $html .= '<a href="'.$url.'/productdetailsSubProduct/' . $product->product_id . '/' . $product->productNr . '">';
                         }
                         $html .= '<div class="product-image-wrapper">';
                         $html .= '<div class="single-products">';
@@ -867,9 +868,9 @@ class PageController extends Controller
                         $html .= '<div class="choose">';
                         $html .= '<ul class="nav nav-pills nav-justified">';
                         if ($product->productNr == "" || $product->productNr == null) {
-                            $html .= '<li><a href="/productdetailsSubProduct/' . $product->product_id . '/' . $product->product_productNr . '"><i class="fa fa-plus-square"></i> Details bekijken</a></li>';
+                            $html .= '<li><a href="'.$url.'/productdetailsSubProduct/' . $product->product_id . '/' . $product->product_productNr . '"><i class="fa fa-plus-square"></i> Details bekijken</a></li>';
                         } else {
-                            $html .= '<li><a href="/productdetailsSubProduct/' . $product->product_id . '/' . $product->productNr . '"><i class="fa fa-plus-square"></i> Details bekijken</a></li>';
+                            $html .= '<li><a href="'.$url.'/productdetailsSubProduct/' . $product->product_id . '/' . $product->productNr . '"><i class="fa fa-plus-square"></i> Details bekijken</a></li>';
                         }
                         $html .= '</ul>';
                         $html .= '</div>';
@@ -880,9 +881,9 @@ class PageController extends Controller
                 } else {
                     $html .= '<div class="col-md-4">';
                     if ($product->productNr == "") {
-                        $html .= '<a href="/productdetailsSubProduct/' . $product->product_id . '/' . $product->product_productNr . '">';
+                        $html .= '<a href="'.$url.'/productdetailsSubProduct/' . $product->product_id . '/' . $product->product_productNr . '">';
                     } else {
-                        $html .= '<a href="/productdetailsSubProduct/' . $product->product_id . '/' . $product->productNr . '">';
+                        $html .= '<a href="'.$url.'/productdetailsSubProduct/' . $product->product_id . '/' . $product->productNr . '">';
                     }
                     $html .= '<div class="product-image-wrapper">';
                     $html .= '<div class="single-products">';
@@ -906,9 +907,9 @@ class PageController extends Controller
                     $html .= '<div class="choose">';
                     $html .= '<ul class="nav nav-pills nav-justified">';
                     if ($product->productNr == "") {
-                        $html .= '<li><a href="/productdetailsSubProduct/' . $product->product_id . '/' . $product->product_productNr . '"><i class="fa fa-plus-square"></i> Details bekijken</a></li>';
+                        $html .= '<li><a href="'.$url.'/productdetailsSubProduct/' . $product->product_id . '/' . $product->product_productNr . '"><i class="fa fa-plus-square"></i> Details bekijken</a></li>';
                     } else {
-                        $html .= '<li><a href="/productdetailsSubProduct/' . $product->product_id . '/' . $product->productNr . '"><i class="fa fa-plus-square"></i> Details bekijken</a></li>';
+                        $html .= '<li><a href="'.$url.'/productdetailsSubProduct/' . $product->product_id . '/' . $product->productNr . '"><i class="fa fa-plus-square"></i> Details bekijken</a></li>';
                     }
                     $html .= '</ul>';
                     $html .= '</div>';
@@ -942,6 +943,7 @@ class PageController extends Controller
 
     public function subCategoryFilter($id)
     {
+        $url = url('/');
         $languageSession = Session::get('lang', 'nl');
         if ($languageSession != 'nl' || $languageSession != 'de' || $languageSession != 'en' || $languageSession != 'fr') {
             $languageSession = 'nl';
@@ -1100,9 +1102,9 @@ class PageController extends Controller
                     }*/
                     $html .= '<div class="col-md-4">';
                     if ($product->productNr == "" || $product->productNr == null) {
-                        $html .= '<a href="/productdetailsSubProduct/' . $product->product_id . '/' . $product->product_productNr . '">';
+                        $html .= '<a href="'.$url.'/productdetailsSubProduct/' . $product->product_id . '/' . $product->product_productNr . '">';
                     } else {
-                        $html .= '<a href="/productdetailsSubProduct/' . $product->product_id . '/' . $product->productNr . '">';
+                        $html .= '<a href="'.$url.'/productdetailsSubProduct/' . $product->product_id . '/' . $product->productNr . '">';
                     }
                     $html .= '<div class="product-image-wrapper">';
                     $html .= '<div class="single-products">';
@@ -1126,9 +1128,9 @@ class PageController extends Controller
                     $html .= '<div class="choose">';
                     $html .= '<ul class="nav nav-pills nav-justified">';
                     if ($product->productNr == "" || $product->productNr == null) {
-                        $html .= '<li><a href="/productdetailsSubProduct/' . $product->product_id . '/' . $product->product_productNr . '"><i class="fa fa-plus-square"></i> Details bekijken</a></li>';
+                        $html .= '<li><a href="'.$url.'/productdetailsSubProduct/' . $product->product_id . '/' . $product->product_productNr . '"><i class="fa fa-plus-square"></i> Details bekijken</a></li>';
                     } else {
-                        $html .= '<li><a href="/productdetailsSubProduct/' . $product->product_id . '/' . $product->productNr . '"><i class="fa fa-plus-square"></i> Details bekijken</a></li>';
+                        $html .= '<li><a href="'.$url.'/productdetailsSubProduct/' . $product->product_id . '/' . $product->productNr . '"><i class="fa fa-plus-square"></i> Details bekijken</a></li>';
                     }
                     $html .= '</ul>';
                     $html .= '</div>';
@@ -1139,9 +1141,9 @@ class PageController extends Controller
             } else {
                 $html .= '<div class="col-md-4">';
                 if ($product->productNr == "") {
-                    $html .= '<a href="/productdetailsSubProduct/' . $product->product_id . '/' . $product->product_productNr . '">';
+                    $html .= '<a href="'.$url.'/productdetailsSubProduct/' . $product->product_id . '/' . $product->product_productNr . '">';
                 } else {
-                    $html .= '<a href="/productdetailsSubProduct/' . $product->product_id . '/' . $product->productNr . '">';
+                    $html .= '<a href="'.$url.'/productdetailsSubProduct/' . $product->product_id . '/' . $product->productNr . '">';
                 }
                 $html .= '<div class="product-image-wrapper">';
                 $html .= '<div class="single-products">';
@@ -1165,9 +1167,9 @@ class PageController extends Controller
                 $html .= '<div class="choose">';
                 $html .= '<ul class="nav nav-pills nav-justified">';
                 if ($product->productNr == "") {
-                    $html .= '<li><a href="/productdetailsSubProduct/' . $product->product_id . '/' . $product->product_productNr . '"><i class="fa fa-plus-square"></i> Details bekijken</a></li>';
+                    $html .= '<li><a href="'.$url.'/productdetailsSubProduct/' . $product->product_id . '/' . $product->product_productNr . '"><i class="fa fa-plus-square"></i> Details bekijken</a></li>';
                 } else {
-                    $html .= '<li><a href="/productdetailsSubProduct/' . $product->product_id . '/' . $product->productNr . '"><i class="fa fa-plus-square"></i> Details bekijken</a></li>';
+                    $html .= '<li><a href="'.$url.'/productdetailsSubProduct/' . $product->product_id . '/' . $product->productNr . '"><i class="fa fa-plus-square"></i> Details bekijken</a></li>';
                 }
                 $html .= '</ul>';
                 $html .= '</div>';
@@ -1197,7 +1199,6 @@ class PageController extends Controller
         $afmetingen = array_unique($afmetingen);
         $colors = array_unique($colors);
         $coatings = array_unique($coatings);
-
         return view('front.cms.' . $page->template, ['page' => $page, 'producten' => $producten, 'lang' => $lang, 'categories' => $hoofdCategories, 'html' => $html, 'tellerFilter' => 0,'tellerFilterSub' => 1000, 'categoryClicked' => $id, 'selectedCategories' => $categoriesSelected, 'afmetingen' => $afmetingen, 'colors' => $colors, 'coatings' => $coatings, 'filterData' => $filterDataCurrent]);
     }
 

@@ -1,5 +1,6 @@
 @extends('front.template.main')
 @section('content')
+
     <div class="row spacerbig"></div>
     <div class="container">
         <div class="row">
@@ -24,7 +25,7 @@
                                                             <div class="checkbox categories" style="margin-left:10px;">
                                                                 <label>
                                                                     <?php if(sizeof($subCategory->subCategories) == 0){?>
-                                                                    <input type="checkbox" data-url="{{ url('//subcategoryFilter')}}/{{$subCategory->id}}"  data-param-id="{{$subCategory->id}}" class="subCategory" value="">
+                                                                    <input type="checkbox" data-url="{{ url('/subcategoryFilter')}}/{{$subCategory->id}}"  data-param-id="{{$subCategory->id}}" class="subCategory" value="">
                                                                     <span class="cr"></span>
                                                                     <li><a href="{{ url('/subcategoryFilter') }}/{{$subCategory->id}}" data-param-id="{{$subCategory->id}}"><?php echo $subCategory->{'naam_' . $lang};?><span></span></a></li>
                                                                     <?php }else{?>
@@ -147,6 +148,7 @@
                 </div>
             </div>
             <div id="allproductscontainer" class="col-md-9">
+                {!! Breadcrumbs::render('subcategoryFilter', $categoryClicked) !!}
                 {!! $html !!}
             </div>
         </div>
@@ -238,7 +240,7 @@
                 filterData.selectedAfmetingen = [];
                 $.ajax({
                     type: "GET",
-                    url: "/filteredProductsPOST",
+                    url: "{{ url('/filteredProductsPOST')}}",
                     data: {"filterData": JSON.stringify(filterData)},
                     cache: false,
                     success: function(data){
@@ -279,7 +281,7 @@
                 filterData.selectedAfmetingen = [];
                 $.ajax({
                     type: "GET",
-                    url: "/filteredProductsPOST",
+                    url: "{{ url('/filteredProductsPOST')}}",
                     data: {"filterData": JSON.stringify(filterData)},
                     cache: false,
                     success: function(data){
@@ -321,7 +323,7 @@
                 filterData["selectedAfmetingen"].push(clickedAfmeting);
                 $.ajax({
                     type: "GET",
-                    url: "/filteredProductsPOST",
+                    url: "{{ url('/filteredProductsPOST')}}",
                     data: {"filterData": JSON.stringify(filterData)},
                     cache: false,
                     success: function(data){
@@ -336,7 +338,7 @@
                 filterData.selectedAfmetingen.splice(index, 1);
                 $.ajax({
                     type: "GET",
-                    url: "/filteredProductsPOST",
+                    url: "{{ url('/filteredProductsPOST')}}",
                     data: {"filterData": JSON.stringify(filterData)},
                     cache: false,
                     success: function(data){
@@ -355,7 +357,7 @@
                 filterData["selectedColors"].push(clickedColor);
                 $.ajax({
                     type: "GET",
-                    url: "/filteredProductsPOST",
+                    url: "{{ url('/filteredProductsPOST')}}",
                     data: {"filterData": JSON.stringify(filterData)},
                     cache: false,
                     success: function(data){
@@ -370,7 +372,7 @@
                 filterData.selectedColors.splice(index, 1);
                 $.ajax({
                     type: "GET",
-                    url: "/filteredProductsPOST",
+                    url: "{{ url('/filteredProductsPOST')}}",
                     data: {"filterData": JSON.stringify(filterData)},
                     cache: false,
                     success: function(data){
@@ -388,7 +390,7 @@
                 filterData["selectedCoatings"].push(clickedCoating);
                 $.ajax({
                     type: "GET",
-                    url: "/filteredProductsPOST",
+                    url: "{{ url('/filteredProductsPOST')}}",
                     data: {"filterData": JSON.stringify(filterData)},
                     cache: false,
                     success: function(data){
@@ -403,7 +405,7 @@
                 filterData.selectedCoatings.splice(index, 1);
                 $.ajax({
                     type: "GET",
-                    url: "/filteredProductsPOST",
+                    url: "{{ url('/filteredProductsPOST')}}",
                     data: {"filterData": JSON.stringify(filterData)},
                     cache: false,
                     success: function(data){
