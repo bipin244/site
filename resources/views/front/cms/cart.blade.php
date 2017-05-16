@@ -5,7 +5,14 @@
             <h1 class="headerpage">OFFERTEMAND</h1>
         </div>
     </div>
-     {!! Breadcrumbs::render('cart') !!}
+    <div class="row">
+        <div class="col-md-2">
+            
+        </div>
+        <div class="col-md-8">
+            {!! Breadcrumbs::render('cart') !!}
+        </div>
+    </div>
     <div id="cloneNoItems" style="display:none">
         <table>
         <tr>
