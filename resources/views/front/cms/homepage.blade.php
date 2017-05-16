@@ -229,7 +229,7 @@
         var productNrAddToCart = $(this).data('productNr');
         $.ajax({
             type: "GET",
-            url: "/addtocart/afmeting",
+            url: "{{ url('/addtocart/afmeting')}}",
             data: {"productNr": productNrAddToCart, "amount": 1},
             cache: false,
             success: function(data){

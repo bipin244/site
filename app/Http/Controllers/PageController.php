@@ -625,7 +625,7 @@ class PageController extends Controller
             }
             $hoofdCategories[$key]->subCategories = $subCategoriesTemp;
         }
-        return view('front.cms.productensubcategory', ['page' => $page, 'producten' => $producten, 'lang' => $languageSession, 'categories' => $hoofdCategories, 'tellerFilter' => 0, 'tellerFilterSub' => 1000, 'tellerFilterSub2' => 1000, 'selectedCategories' => $categories]);
+        return view('front.cms.productensubcategory', ['page' => $page, 'producten' => $producten, 'lang' => $languageSession, 'categories' => $hoofdCategories, 'tellerFilter' => 0, 'tellerFilterSub' => 1000, 'tellerFilterSub2' => 1000, 'selectedCategories' => $categories,'id'=>$id,'clickedCategory'=>$clickedCategory]);
     }
 
     public function filteredProductsPOST(Request $request)
@@ -943,6 +943,7 @@ class PageController extends Controller
 
     public function subCategoryFilter($id)
     {
+        Session::put('subcategoryFilter',$id);
         $url = url('/');
         $languageSession = Session::get('lang', 'nl');
         if ($languageSession != 'nl' || $languageSession != 'de' || $languageSession != 'en' || $languageSession != 'fr') {
@@ -1344,9 +1345,9 @@ class PageController extends Controller
         }
 
         if ($product->params != null && sizeof($product->params) > 0) {
-            return view('front.cms.productdetails', ['page' => $page, 'product' => $product, 'productType' => $productType, 'related' => $relatedProducts, 'tellerDataSlide' => 0, 'tellerActive' => 0, 'lang' => $lang, 'currentProductParam' => $currentProductParam]);
+            return view('front.cms.productdetails', ['page' => $page, 'product' => $product, 'productType' => $productType, 'related' => $relatedProducts, 'tellerDataSlide' => 0, 'tellerActive' => 0, 'lang' => $lang, 'currentProductParam' => $currentProductParam,'productId'=>$productId]);
         } else {
-            return view('front.cms.productdetails', ['page' => $page, 'product' => $product, 'productType' => $productType, 'related' => $relatedProducts, 'tellerDataSlide' => 0, 'tellerActive' => 0, 'lang' => $lang]);
+            return view('front.cms.productdetails', ['page' => $page, 'product' => $product, 'productType' => $productType, 'related' => $relatedProducts, 'tellerDataSlide' => 0, 'tellerActive' => 0, 'lang' => $lang,'productId'=>$productId]);
         }
 
     }
@@ -1355,7 +1356,7 @@ class PageController extends Controller
     {
         $filterString = $request->input('keyword');
 
-
+        $url = url('/');
         $producten = DB::table('products')
             ->join('product_params', 'products.id', '=', 'product_params.productId')
             ->join('product_img_relations', 'products.id', '=', 'product_img_relations.productId')
@@ -1468,7 +1469,8 @@ class PageController extends Controller
                 if ($resultCounter >= 7 || in_array($productresult->productNr, $prevProductNrs)) {
 
                 } else {
-                    $html .= "<li><a href='/productdetailsSubProduct/" . $productresult->product_id . "/" . $productresult->productNr . "' class='listItemSearch'><div class='row'><div class='col-md-2'><img src='" . URL::asset('uploads/' . $productresult->directory . '/' . $productresult->naam) . "' width='45px' height='45px' alt='NL'></div><div class='col-md-10'><div class='row'><div class='col-md-10'><p>" . $productresult->{'product_naam_' . $languageSession} . "</p></div></div><div class='row'><div class='col-md-10'> <p class='fontDescSearch'>" . $productresult->{'beschrijving_kort_' . $languageSession} . "</p></div></div></div></div></a></li>";
+
+                    $html .= "<li><a href='".$url."/productdetailsSubProduct/" . $productresult->product_id . "/" . $productresult->productNr . "' class='listItemSearch'><div class='row'><div class='col-md-2'><img src='" . URL::asset('uploads/' . $productresult->directory . '/' . $productresult->naam) . "' width='45px' height='45px' alt='NL'></div><div class='col-md-10'><div class='row'><div class='col-md-10'><p>" . $productresult->{'product_naam_' . $languageSession} . "</p></div></div><div class='row'><div class='col-md-10'> <p class='fontDescSearch'>" . $productresult->{'beschrijving_kort_' . $languageSession} . "</p></div></div></div></div></a></li>";
                 }
                 $prevProductNrs[] = $productresult->productNr;
                 $resultCounter++;
@@ -1498,7 +1500,7 @@ class PageController extends Controller
                 if ($resultCounter >= 7 || in_array($productresult->productNr, $prevProductNrs)) {
 
                 } else {
-                    $html .= "<li><a href='/productdetailsSubProduct/" . $productresult->product_id . "/" . $productresult->productNr . "' class='listItemSearch'><div class='row'><div class='col-md-2'><img src='" . URL::asset('uploads/' . $productresult->directory . '/' . $productresult->naam) . "' width='45px' height='45px' alt='NL'></div><div class='col-md-10'><div class='row'><div class='col-md-10'><p>" . $productresult->{'product_naam_' . $languageSession} . " " . $productresult->afmeting . " " . $productresult->{'color_naam_' . $languageSession} . " " . $productresult->{'coatingnaam_' . $languageSession} . "</p></div></div><div class='row'><div class='col-md-10'> <p class='fontDescSearch'>" . $productresult->{'beschrijving_kort_' . $languageSession} . "</p></div></div></div></div></a></li>";
+                    $html .= "<li><a href='".$url."/productdetailsSubProduct/" . $productresult->product_id . "/" . $productresult->productNr . "' class='listItemSearch'><div class='row'><div class='col-md-2'><img src='" . URL::asset('uploads/' . $productresult->directory . '/' . $productresult->naam) . "' width='45px' height='45px' alt='NL'></div><div class='col-md-10'><div class='row'><div class='col-md-10'><p>" . $productresult->{'product_naam_' . $languageSession} . " " . $productresult->afmeting . " " . $productresult->{'color_naam_' . $languageSession} . " " . $productresult->{'coatingnaam_' . $languageSession} . "</p></div></div><div class='row'><div class='col-md-10'> <p class='fontDescSearch'>" . $productresult->{'beschrijving_kort_' . $languageSession} . "</p></div></div></div></div></a></li>";
                 }
                 $prevProductNrs[] = $productresult->paramProductNr;
                 $resultCounter++;

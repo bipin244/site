@@ -5,6 +5,7 @@
             <h1 class="headerpage">OFFERTEMAND</h1>
         </div>
     </div>
+     {!! Breadcrumbs::render('cart') !!}
     <div id="cloneNoItems" style="display:none">
         <table>
         <tr>
@@ -236,7 +237,7 @@
             var cartIdToRemove = $(this).data("cartId");
             $.ajax({
                 type: "GET",
-                url: "/removeCartItem",
+                url: "{{ url('/removeCartItem')}}",
                 data: {"cartId": cartIdToRemove},
                 cache: false,
                 success: function(data){
@@ -260,7 +261,7 @@
             function getFilteredResultCount(){
                 $.ajax({
                     type: "GET",
-                    url: "/updateAmountCartItem",
+                    url: "{{ url('/updateAmountCartItem')}}",
                     data: {"cartId": cartId, "newAmount": newAmount},
                     cache: false,
                     success: function(data){
@@ -277,7 +278,7 @@
                 $('input[name="visitorId"]').val(user.id);
                 $.ajax({
                     type: "GET",
-                    url: "/visitor/getDefaultAddress",
+                    url: "{{ url('/visitor/getDefaultAddress')}}",
                     data: {"visitorId": user.id},
                     cache: false,
                     success: function(data){

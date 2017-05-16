@@ -1,7 +1,9 @@
 @extends('front.template.main')
 @section('content')
     <div class="row spacerbig"></div>
+
     <div class="container">
+    {!! Breadcrumbs::render('productDetailsSub',$productId,'d') !!}
         <div class="row">
             <div class="col-md-6">
                 <div class="row">
@@ -217,7 +219,7 @@
         var htmlImageKlein = "";
         var tellerActiveProductImage = 0;
 
-        console.log(base_url);
+        console.log("public_path :",base_url);
 
         $(document).on('click', '.paramItemSelect', function(){
             if($(this).hasClass("itemDisabled")){
@@ -294,7 +296,7 @@
                                 var $productTemplate = $("#relatedProductTemplate").clone();
 
                                 $productTemplate.find("#linkProductNr").attr("href","/productdetailsSubProduct/" + product.productId + "/" + product.productNr2);
-                                $productTemplate.find(".productimg").css('background-image',"url('/uploads/" + product.directory + "/" + product.naam + "')");
+                                $productTemplate.find(".productimg").css('background-image'," "+base_url+"/uploads/" + product.directory + "/" + product.naam + "");
                                 $productTemplate.find(".titleProduct").html(product.naam_nl + " - " + product.afmeting);
                                 $productTemplate.find(".descriptionProduct").html(product.beschrijving_nl);
 
@@ -324,7 +326,7 @@
                                     var $productTemplate = $("#relatedProductTemplate").clone();
 
                                     $productTemplate.find("#linkProductNr").attr("href","/productdetailsSubProduct/" + product.productId + "/" + product.productNr2);
-                                    $productTemplate.find(".productimg").css('background-image',"url('/uploads/" + product.directory + "/" + product.naam + "')");
+                                    $productTemplate.find(".productimg").css('background-image',"url('"+base_url+"/uploads/" + product.directory + "/" + product.naam + "')");
                                     $productTemplate.find(".titleProduct").html(product.naam_nl + " - " + product.afmeting);
                                     $productTemplate.find(".descriptionProduct").html(product.beschrijving_nl);
 
@@ -598,7 +600,7 @@
                 var amount = $("#amounttextbox").val();
                 $.ajax({
                     type: "GET",
-                    url: "/addtocart/single",
+                    url: "{{ url('/addtocart/single')}}",
                     data: {"productNr": singleProductNr, "amount": amount},
                     cache: false,
                     success: function(data){
@@ -628,7 +630,8 @@
                 console.log(paramsSelected);
                 $.ajax({
                     type: "GET",
-                    url: "/addtocart/afmeting",
+                    
+                    url:"{{ url('/addtocart/afmeting')}}",
                     data: {"productNr": paramsSelected[0].productNr, "amount": amount},
                     cache: false,
                     success: function(data){

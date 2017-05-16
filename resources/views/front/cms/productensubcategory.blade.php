@@ -60,7 +60,8 @@
                     </div>
                 </div>
             </div>
-            <div id="allproductscontainer" class="col-md-9 1">
+            <div id="allproductscontainer" class="col-md-9">
+            {!! Breadcrumbs::render('subCategoryShow',$id,$clickedCategory) !!}
                 <?php $teller = 1;?>
                 @foreach($selectedCategories as $selectedCategory)
                     <?php if($teller > 1){?>

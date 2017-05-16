@@ -43,7 +43,6 @@
                 </div>
             </div>
             <div id="allproductscontainer" class="col-md-9">
-             
                 <?php $teller = 1;?>
                 @foreach($producten as $product)
                     <?php if($teller > 1){?>

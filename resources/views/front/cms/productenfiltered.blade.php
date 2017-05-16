@@ -147,8 +147,8 @@
                     </div>
                 </div>
             </div>
+            {!! Breadcrumbs::render('subcategoryFilter', $categoryClicked) !!}
             <div id="allproductscontainer" class="col-md-9">
-                {!! Breadcrumbs::render('subcategoryFilter', $categoryClicked) !!}
                 {!! $html !!}
             </div>
         </div>

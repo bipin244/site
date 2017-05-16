@@ -7,6 +7,7 @@
     </div>
     <div class="row spacerbig"></div>
     <div class="container">
+    {!! Breadcrumbs::render('promotionPage') !!}
         <div class="row">
             <div class="col-md-3">
                 <div class="row">
@@ -225,7 +226,7 @@
                 filterData.selectedAfmetingen = [];
                 $.ajax({
                     type: "GET",
-                    url: "/filteredProductsPOST",
+                    url: "{{ url('/filteredProductsPOST')}}",
                     data: {"filterData": JSON.stringify(filterData)},
                     cache: false,
                     success: function(data){
@@ -266,7 +267,7 @@
                 filterData.selectedAfmetingen = [];
                 $.ajax({
                     type: "GET",
-                    url: "/filteredProductsPOST",
+                    url: "{{ url('/filteredProductsPOST')}}",
                     data: {"filterData": JSON.stringify(filterData)},
                     cache: false,
                     success: function(data){
@@ -308,7 +309,7 @@
                 filterData["selectedAfmetingen"].push(clickedAfmeting);
                 $.ajax({
                     type: "GET",
-                    url: "/filteredProductsPOST",
+                    url: "{{ url('/filteredProductsPOST')}}",
                     data: {"filterData": JSON.stringify(filterData)},
                     cache: false,
                     success: function(data){
@@ -323,7 +324,7 @@
                 filterData.selectedAfmetingen.splice(index, 1);
                 $.ajax({
                     type: "GET",
-                    url: "/filteredProductsPOST",
+                    url: "{{ url('/filteredProductsPOST')}}",
                     data: {"filterData": JSON.stringify(filterData)},
                     cache: false,
                     success: function(data){
@@ -342,7 +343,7 @@
                 filterData["selectedColors"].push(clickedColor);
                 $.ajax({
                     type: "GET",
-                    url: "/filteredProductsPOST",
+                    url: "{{ url('/filteredProductsPOST')}}",
                     data: {"filterData": JSON.stringify(filterData)},
                     cache: false,
                     success: function(data){
@@ -357,7 +358,7 @@
                 filterData.selectedColors.splice(index, 1);
                 $.ajax({
                     type: "GET",
-                    url: "/filteredProductsPOST",
+                    url: "{{ url('/filteredProductsPOST')}}",
                     data: {"filterData": JSON.stringify(filterData)},
                     cache: false,
                     success: function(data){
@@ -375,7 +376,7 @@
                 filterData["selectedCoatings"].push(clickedCoating);
                 $.ajax({
                     type: "GET",
-                    url: "/filteredProductsPOST",
+                    url: "{{ url('/filteredProductsPOST')}}",
                     data: {"filterData": JSON.stringify(filterData)},
                     cache: false,
                     success: function(data){
@@ -390,7 +391,7 @@
                 filterData.selectedCoatings.splice(index, 1);
                 $.ajax({
                     type: "GET",
-                    url: "/filteredProductsPOST",
+                    url: "{{ url('/filteredProductsPOST')}}",
                     data: {"filterData": JSON.stringify(filterData)},
                     cache: false,
                     success: function(data){

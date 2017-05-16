@@ -16,8 +16,8 @@ Route::get('/subCategoryShow/{id}/{clickedCategory}', ['uses' => 'PageController
 
 Route::get('/subcategoryFilter/{id}', ['uses' => 'PageController@subCategoryFilter', 'as' => 'subcategoryFilter']);
 Route::get('/subSubCategoryShow/{id}/{clickedCategory}','PageController@subSubCategoryShow');
-Route::get('/filteredProductsPOST', 'PageController@filteredProductsPOST');
-Route::get('/productdetailsSubProduct/{productId}/{productNr}','PageController@productDetailsSub');
+Route::get('/filteredProductsPOST', ['uses' => 'PageController@filteredProductsPOST', 'as' => 'filteredProductsPOST']);
+Route::get('/productdetailsSubProduct/{productId}/{productNr}', ['uses' => 'PageController@productDetailsSub', 'as' => 'productdetailsSubProduct']);
 Route::get('/updateText', 'PageController@updateText');
 Route::get('/getRelatedItems', 'PageController@getRelatedItems');
 Route::get('/relatedGet/{productNr}', 'PageController@relatedGet');
@@ -40,7 +40,7 @@ Route::get('/filterProducts', 'PageController@filterProducts');
 Route::get('/newColor', 'Admin\ProductController@addColor');
 Route::get('/newCoating', 'Admin\ProductController@addCoating');
 Route::get('/updateColor', 'Admin\ProductController@updateColor');
-Route::get('/promotionPage', 'PostController@promotionPage');
+Route::get('/promotionPage', ['uses' => 'PostController@promotionPage', 'as' => 'promotionPage']);
 Route::get('/admin/configUpdate', 'PostController@configUpdate');
 Route::get('/admin/configuration', 'PostController@adminConfiguration');
 Route::get('/admin/langupdate', 'PostController@langUpdate');

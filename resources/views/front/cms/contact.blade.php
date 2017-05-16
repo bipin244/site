@@ -7,6 +7,7 @@
     </div>
     <div class="row spacerbig"></div>
     <div class="container">
+        {!! Breadcrumbs::render('contact') !!}
         <div class="row">
             <div class="col-md-6">
                 <div class="row">

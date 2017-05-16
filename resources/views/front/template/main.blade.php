@@ -330,7 +330,7 @@
         if (keyword.length >= min_length) {
             $.ajax({
                 type: "GET",
-                url: "/search",
+                url: "{{ url('/search')}}",
                 data: {"keyword": keyword},
                 cache: false,
                 success:function(data){
