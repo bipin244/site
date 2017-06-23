@@ -2,6 +2,7 @@
 
 use App\Category;
 use App\Product;
+use App\CategoryProduct;
 // Home
 Breadcrumbs::register('Home', function($breadcrumbs)
 {
@@ -15,6 +16,7 @@ Breadcrumbs::register('SubCategory', function($breadcrumbs)
 });
 Breadcrumbs::register('Category', function($breadcrumbs,$id)
 {
+    $subCat = Category::find($id);
     $breadcrumbs->parent('Home');
     $breadcrumbs->push('Product',route('subcategoryFilter',$id));
 });
@@ -39,8 +41,9 @@ Breadcrumbs::register('subCategoryShow', function($breadcrumbs, $id, $clickedCat
 Breadcrumbs::register('productDetailsSub', function($breadcrumbs, $productId, $productNr)
 {
 	$subCat = Product::find($productId);
-	$subcategoryFilter = Session::get('subcategoryFilter');
-	$breadcrumbs->parent('Category',$subcategoryFilter);
+    $getCat = CategoryProduct::where('product_id',$productId)->get(['category_id'])->first();
+    $subcategoryFilter = Session::get('subcategoryFilter')?Session::get('subcategoryFilter'):$getCat['category_id'];
+    $breadcrumbs->parent('subcategoryFilter',$subcategoryFilter);
     $breadcrumbs->push($subCat->naam_nl, route('productdetailsSubProduct',['productId'=>$productId,'productNr'=> $productNr]));
 });
 

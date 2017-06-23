@@ -1064,8 +1064,9 @@ class PageController extends Controller
             $coating->coatingnaam_de = $product->coatingnaam_de;
             $coating->coatingnaam_en = $product->coatingnaam_en;
             $coatings[] = $coating;
-            if ($product->productNrImg != null) {
-                $imagebackground = 'background-image: url("' . (URL::asset("uploads/" . $product->productNrImg[0]->directory . "/" . $product->productNrImg[0]->naam)) . '")';
+          
+            if (array_key_exists('productNrImgs', $product) && $product->productNrImgs != null) {
+                $imagebackground = 'background-image: url("' . (URL::asset("uploads/" . $product->productNrImgs[0]->directory . "/" . $product->productNrImgs[0]->naam)) . '")';
             } else {
                 $imagebackground = 'background-image: url("' . (URL::asset("uploads/" . $product->directory . "/" . $product->naam)) . '")';
             }

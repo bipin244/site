@@ -73,9 +73,10 @@ class PriceListController extends Controller
     }
     public function addUser(Request $request){
         $input = $request->all();
+        $oldUserId = explode(',', $input['beforeUser']);
         $success = "false";
         $userIds = explode(',', $input['selectedUserId'][0]);
-
+        $removeUserId=array_diff($oldUserId,$userIds);
         if($input['selectedUserId'][0]){
             foreach ($userIds as $key => $value) {
                 $data = Visitor::where('id',$value)->get(['priceListId']);
@@ -94,15 +95,31 @@ class PriceListController extends Controller
                     $success = "true";
                 }
             }
-        }else{
-            return redirect()->route('admin.showAllPriceLists.user',$input['priceId'])->with('error', 'Something wrong!');
+        }
+
+        if(count($removeUserId) > 0 && $removeUserId[0] != ""){
+            foreach ($removeUserId as $key => $value) {
+                $data = Visitor::where('id',$value)->get(['priceListId']);
+                $oldPriceListId = $data[0]['priceListId'];
+                $remainData = $this->removeFromString($oldPriceListId,$input['priceId']);
+                $updateData = Visitor::where('id',$value)->update(['priceListId'=>$remainData,'updated_at'=>date('Y-m-d H:i:s') ]);
+            }
         }
         if($success == "true"){
-            return redirect()->route('admin.priceList.addUser',$input['priceId'])->with('error', 'Something wrong!');
+            return redirect()->route('admin.showAllPriceLists.addUser',$input['priceId'])->with('error', 'Something wrong!');
         }else{
             return redirect()->route('admin.showAllPriceLists.index')->with('success', 'Successfully added user!');
         }
 
+    }
+    public function removeFromString($str, $item) {
+        $parts = explode(',', $str);
+        //print_r($parts);
+        while(($i = array_search($item, $parts)) !== false) {
+            unset($parts[$i]);
+        }
+
+        return implode(',', $parts);
     }
     public function edit($id){
         $priceList = PriceList::find($id);

@@ -342,7 +342,9 @@
             $('#product_list_id').css("display","none");
         }
     });
-
+    $(document).on('click','.listItemSearch',function(){
+        <?php Session::put('subcategoryFilter','');?>;
+    });
     $(document).click(function(e) {
         if( e.target.id != 'product_list_id') {
             $("#product_list_id").css("display","none");

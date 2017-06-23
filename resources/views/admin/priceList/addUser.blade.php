@@ -47,6 +47,7 @@
 		 				@endforeach
                     </tbody>
                 </table>
+                <input type="hidden" name="beforeUser" id="beforeUser">
 		        <a href="{{route('admin.showAllPriceLists.index')}}" class="btn btn-default">Back</a>
 		        <button type="button" class="btn btn-sml btn-primary submitForm">Submit</button>
 		    </form>
@@ -83,6 +84,9 @@
 				 .search( '' )
 				 .columns().search( '' )
 				 .draw();
+				var userAllId = '<?php echo implode(',', $userAllId); ?>';
+				console.log("userAllId : ",userAllId);
+				$("#beforeUser").val(userAllId);
 				$("#PriorityCheckbox").val($("#ispriority").prop("checked"));
 				$("#userForm").submit();
 		    });
