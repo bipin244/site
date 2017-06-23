@@ -9,11 +9,11 @@ Breadcrumbs::register('Home', function($breadcrumbs)
     $breadcrumbs->push('Home', route('/home'));
 });
 
-Breadcrumbs::register('SubCategory', function($breadcrumbs)
-{
-    $breadcrumbs->parent('Home');
-    $breadcrumbs->push('SubCategory');
-});
+// Breadcrumbs::register('SubCategory', function($breadcrumbs)
+// {
+//     $breadcrumbs->parent('Home');
+//     $breadcrumbs->push('SubCategory');
+// });
 Breadcrumbs::register('Category', function($breadcrumbs,$id)
 {
     $breadcrumbs->parent('Home');
@@ -23,7 +23,13 @@ Breadcrumbs::register('Category', function($breadcrumbs,$id)
 // Home > Test2
 Breadcrumbs::register('subcategoryFilter', function($breadcrumbs,$id)
 {
-    $subCat = Category::find($id);
+    $Cat = Category::find($id);
+    if($Cat['subcategoryId']){
+        $subCat = Category::find($Cat['subcategoryId']);
+    }else{
+        $subCat = $Cat; 
+    }
+    
     $breadcrumbs->parent('Home');
     $breadcrumbs->push($subCat->naam_nl, route('subcategoryFilter', $id));
 });
@@ -36,6 +42,7 @@ Breadcrumbs::register('subCategoryShow', function($breadcrumbs, $id, $clickedCat
     $breadcrumbs->push($subCat->naam_nl, route('subCategoryShow',['id'=>$id,'clickedCategory'=> $clickedCategory]));
 });
 
+//Home > poortframes 
 //Home > category > Gebogen ijzerss
 Breadcrumbs::register('productDetailsSub', function($breadcrumbs, $productId, $productNr)
 {
@@ -52,6 +59,7 @@ Breadcrumbs::register('productDetailsSub', function($breadcrumbs, $productId, $p
         ->where('product_id',$productId)
         ->whereNotIn('category_id',$allCatIds)
         ->get();
+
     $showCat = false;
     if(sizeof($getCat) == 0){
         $getCat = DB::table('categorie_products')
@@ -75,7 +83,7 @@ Breadcrumbs::register('productDetailsSub', function($breadcrumbs, $productId, $p
     }else{
         $keyOfCat = 0;
     }
-
+    
     $subcategoryFilter = Session::get('subcategoryFilter')?Session::get('subcategoryFilter'):$getCat[$keyOfCat]->category_id;
     if($showCat){
         $breadcrumbs->parent('subCategoryShow',$subcategoryFilter,0);
@@ -84,7 +92,8 @@ Breadcrumbs::register('productDetailsSub', function($breadcrumbs, $productId, $p
     }
 
     $breadcrumbs->push($subCat->naam_nl, route('productdetailsSubProduct',['productId'=>$productId,'productNr'=> $productNr]));
-
+    
+    
 
     /*$subCat = Product::find($productId);
     $subcategoryFilter = Session::get('subcategoryFilter');
