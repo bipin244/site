@@ -5,7 +5,7 @@
 
 	<div class="box">
 		<div class="box-header with-border">
-		  <h3 class="box-title">Add a price List</h3>
+		  <h3 class="box-title">Prijslijst aanmaken</h3>
 		</div><!-- /.box-header -->
 		<div class="box-body">
 		    <form id="priceForm" action="{{route('admin.showAllPriceLists.store')}}" role="form" class="form" method="post">
@@ -14,12 +14,12 @@
 		        <div class="row form-group">
 		        	<input type="hidden" id="PriorityCheckbox" name="PriorityCheckbox" value="false">
 		        	<div class="col-md-10">
-	          			<label for="name">Name<span class="text text-danger">*</span></label>
+	          			<label for="name">Naam prijslijst<span class="text text-danger">*</span></label>
 	          			<input id="name" name="name" type="text" class="form-control" placeholder="Price list name" value="{{old('name')}}" />
           			</div>
 	          		<div class="col-md-2" style="left: 50px;top: 25px;">
 			        	<label class="checkbox">
-		          			<input id="ispriority" name="ispriority" type="checkbox" placeholder="ispriority" value="{{old('ispriority')}}" />Priority
+		          			<input id="ispriority" name="ispriority" type="checkbox" placeholder="ispriority" value="{{old('ispriority')}}" />Prioriteit
 		          		</label>
 			        </div>
 		        </div>
@@ -27,9 +27,9 @@
 		        <table id="bootstrapDataTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <thead>
 	                    <tr>
-	                        <th>Select</th>
+	                        <th>Selecteren</th>
 	                        <th>ProductNr</th>
-	                        <th>Price</th>
+	                        <th>Prijs</th>
 	                    </tr>
                     </thead>
                     <tbody>
@@ -66,6 +66,9 @@
                 "bPaginate": false,
                 "bInfo" : false,
                 "ordering": false,
+                "language": {
+                    "search": "Zoeken:"
+                }
             });
             $(".txtboxToFilter").keydown(function (e) {
 		        // Allow: backspace, delete, tab, escape, enter and .

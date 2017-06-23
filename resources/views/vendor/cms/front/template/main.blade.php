@@ -11,10 +11,9 @@
 
     <title>CMS test</title>
 
-    <!-- Bootstrap Core CSS --><!-- 
-    <link rel="stylesheet" href="{{url('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css')}}"> -->
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="{{url('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css')}}">
 
-    <link rel="stylesheet" href="{{ URL::to('css/bootstrap.min.css') }}">
     <!-- Custom CSS -->
     <style type="text/css">
 		/*!
@@ -103,13 +102,10 @@
     <!-- /.container -->
 
 	    <!-- jQuery -->
-	   <!--  <script type="text/javascript" src="{{url('https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js')}}"></script> -->
+	    <script type="text/javascript" src="{{url('https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js')}}"></script>
 
 	    <!-- Bootstrap Core JavaScript -->
-	   <!--  <script type="text/javascript" src="{{url('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js')}}"></script> -->
-
-        <script type="text/javascript" src="{{URL::to('js/jquery.min.js')}}"></script>
-        <script type="text/javascript" src="{{URL::to('js/bootstrap.min.js')}}"></script>
+	    <script type="text/javascript" src="{{url('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js')}}"></script>
 
 	</body>
 

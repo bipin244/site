@@ -9,18 +9,20 @@
 		</div><!-- /.box-header -->
 		<div class="box-body">
 		    <form id="priceForm" action="{{route('admin.showAllPriceLists.update',$priceList->Id)}}" role="form" class="form" method="post">
+				<a href="{{route('admin.showAllPriceLists.index')}}" class="btn btn-default">Terug</a>
+				<button id="submitButton" type="button" class="btn btn-sml btn-primary submitForm">Opslaan</button>
 		    	<input type="hidden" name="_method" value="put">
 		    	<input type="hidden" name="_token" value="{{csrf_token()}}">
 		        <!-- text input -->
 		        <div class="row form-group">
 		        	<input type="hidden" id="PriorityCheckbox" name="PriorityCheckbox" value="{{ $priceList->Priority == '1' ? 'true' : 'false' }}">
 		        	<div class="col-md-10">
-	          			<label for="name">Name<span class="text text-danger">*</span></label>
+	          			<label for="name">Naam<span class="text text-danger">*</span></label>
 	          			<input id="name" name="name" type="text" class="form-control" placeholder="Price list name" value="{{$priceList->name}}" />
           			</div>
 	          		<div class="col-md-2" style="left: 50px;top: 25px;">
 			        	<label class="checkbox">
-		          			<input id="ispriority" name="ispriority" type="checkbox" placeholder="ispriority" {{ $priceList->Priority == '1' ? 'checked' : '' }} />Priority
+		          			<input id="ispriority" name="ispriority" type="checkbox" placeholder="ispriority" {{ $priceList->Priority == '1' ? 'checked' : '' }} />Prioriteit
 		          		</label>
 			        </div>
 		        </div>
@@ -28,9 +30,9 @@
 		        <table id="bootstrapDataTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <thead>
 	                    <tr>
-	                        <th>Select</th>
+	                        <th>Selecteer</th>
 	                        <th>ProductNr</th>
-	                        <th>Price</th>
+	                        <th>Prijs</th>
 	                    </tr>
                     </thead>
                     <tbody>
@@ -53,8 +55,7 @@
 		 				@endforeach
                     </tbody>
                 </table>
-		        <a href="{{route('admin.showAllPriceLists.index')}}" class="btn btn-default">Back</a>
-		        <button type="button" class="btn btn-sml btn-primary submitForm">Submit</button>
+
 		    </form>
 		</div><!-- /.box-body -->
 	</div><!-- /.box -->
@@ -75,9 +76,12 @@
 			
 			var table = $('#bootstrapDataTable').DataTable({
                 "bLengthChange": true,
-                "bPaginate": false,
+                "bPaginate": true,
                 "bInfo" : false,
                 "ordering": false,
+				"language": {
+                    "search": "Zoeken:"
+				}
             });
             $(".txtboxToFilter").keydown(function (e) {
 		        // Allow: backspace, delete, tab, escape, enter and .
@@ -94,15 +98,19 @@
 		            e.preventDefault();
 		        }
 		    });
-		    $('.priceCheck').change(function(){
-		    	var id = $(this).data('id');
-		    	if($(this).prop("checked")){
-		    		$("#price_"+id).prop("disabled", false);
-		    	}else{
-		    		$("#price_"+id).val('0');
-		    		$("#price_"+id).prop("disabled", true);
-		    	}
-		    });
+
+
+
+            $(document).on('change','.priceCheck',function(){
+                var id = $(this).data('id');
+                if($(this).prop("checked")){
+                    $("#price_"+id).prop("disabled", false);
+                }else{
+                    $("#price_"+id).val('0');
+                    $("#price_"+id).prop("disabled", true);
+                }
+            });
+
 		    $('.submitForm').click(function(){
 				table
 				 .search( '' )

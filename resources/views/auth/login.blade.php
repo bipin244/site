@@ -3,15 +3,10 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Login</title>
-	<!-- <link rel="stylesheet" href="{{url('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.min.css')}}">
+	<link rel="stylesheet" href="{{url('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.min.css')}}">
 	<link rel="stylesheet" href="{{url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css')}}">
 	<link rel="stylesheet" href="{{url('https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.3/css/AdminLTE.min.css')}}">
-	<link rel="stylesheet" href="{{url('https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.3/css/skins/_all-skins.css')}}"> -->
-
-	<link rel="stylesheet" href="{{ URL::to('css/bootstrap.min.css') }}">
-  <link rel="stylesheet" href="{{ URL::to('css/font-awesome.min.css') }}">
-  <link rel="stylesheet" href="{{ URL::to('css/AdminLTE.min.css') }}">
-	<link rel="stylesheet" href="{{ URL::to('css/_all-skins.css') }}">
+	<link rel="stylesheet" href="{{url('https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.3/css/skins/_all-skins.css')}}">
 </head>
 <body>
 

@@ -36,7 +36,7 @@ class PriceListController extends Controller
         $input = $request->all();
         $Priority = '0';
         if($input['PriorityCheckbox'] == true){
-            $Priority = '1';  
+            $Priority = '1';
         }
         $priceList = new PriceList();
         $priceList->name = $input['name'];
@@ -76,7 +76,7 @@ class PriceListController extends Controller
         $oldUserId = explode(',', $input['beforeUser']);
         $success = "false";
         $userIds = explode(',', $input['selectedUserId'][0]);
-        $removeUserId=array_diff($oldUserId,$userIds);
+        $removeUserId = array_diff($oldUserId,$userIds);
         if($input['selectedUserId'][0]){
             foreach ($userIds as $key => $value) {
                 $data = Visitor::where('id',$value)->get(['priceListId']);
@@ -84,7 +84,7 @@ class PriceListController extends Controller
                 if($oldPriceListId == ""){
                     $newPriceListId = $input['priceId'];
                 }else{
-                    if (!preg_match('/\b' . $input['priceId'] . '\b/', $oldPriceListId)) { 
+                    if (!preg_match('/\b' . $input['priceId'] . '\b/', $oldPriceListId)) {
                         $newPriceListId = $oldPriceListId.','.$input['priceId'];
                     }else{
                         $newPriceListId = $oldPriceListId;
@@ -97,12 +97,23 @@ class PriceListController extends Controller
             }
         }
 
-        if(count($removeUserId) > 0 && $removeUserId[0] != ""){
-            foreach ($removeUserId as $key => $value) {
-                $data = Visitor::where('id',$value)->get(['priceListId']);
-                $oldPriceListId = $data[0]['priceListId'];
-                $remainData = $this->removeFromString($oldPriceListId,$input['priceId']);
-                $updateData = Visitor::where('id',$value)->update(['priceListId'=>$remainData,'updated_at'=>date('Y-m-d H:i:s') ]);
+        if(count($removeUserId) > 0){
+            if(array_key_exists(0,$removeUserId)){
+                if($removeUserId[0] != ""){
+                    foreach ($removeUserId as $key => $value) {
+                        $data = Visitor::where('id',$value)->get(['priceListId']);
+                        $oldPriceListId = $data[0]['priceListId'];
+                        $remainData = $this->removeFromString($oldPriceListId,$input['priceId']);
+                        $updateData = Visitor::where('id',$value)->update(['priceListId'=>$remainData,'updated_at'=>date('Y-m-d H:i:s') ]);
+                    }
+                }
+            }else{
+                foreach ($removeUserId as $key => $value) {
+                    $data = Visitor::where('id',$value)->get(['priceListId']);
+                    $oldPriceListId = $data[0]['priceListId'];
+                    $remainData = $this->removeFromString($oldPriceListId,$input['priceId']);
+                    $updateData = Visitor::where('id',$value)->update(['priceListId'=>$remainData,'updated_at'=>date('Y-m-d H:i:s') ]);
+                }
             }
         }
         if($success == "true"){
@@ -132,7 +143,7 @@ class PriceListController extends Controller
         $input = $request->all();
         $Priority = '0';
         if($input['PriorityCheckbox'] == 'true'){
-            $Priority = '1';  
+            $Priority = '1';
         }
         $priceList = PriceList::where('Id',$id)->update(['name' => $input['name'],'Priority' => $Priority]);
         if($priceList){
@@ -152,7 +163,7 @@ class PriceListController extends Controller
                     }else{
                         ProductPriceList::where('price_list_id',$id)->where('productNr',$key)->update(['price' => $value,'priority' => $Priority]);
                     }
-                    
+
                 }
             }
         }else{

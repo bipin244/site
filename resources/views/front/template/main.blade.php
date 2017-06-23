@@ -71,9 +71,9 @@
                     $user = Session::get('loggedin',null);
                 if($user != null){?>
                         <li class="dropdown open">
-                            {{--<a href="{{ url('/user/orderHistoryList')}}" class="dropdown-toggle" data-toggle="dropdown">--}}
+                            {{--<a href="/user/orderHistoryList" class="dropdown-toggle" data-toggle="dropdown">--}}
                             <div class="yellowcolor">
-                                <a href="{{ url('/user/orderHistoryList')}}">
+                                <a href="/user/orderHistoryList">
                                     <span class="glyphicon glyphicon-user"></span>
                                     <strong>{{$user->bedrijfsnaam}}</strong>
                                     <span class="glyphicon glyphicon-chevron-down"></span>
@@ -108,7 +108,7 @@
 <div id="custom-bootstrap-menu" class="navbar navbar-default " role="navigation">
     <div class="row" style="height:100px;">
         <div class="col-md-1 col-md-push-1">
-            <div class="navbar-header"><a class="navbar-brand" href="{{ url('/index')}}"><img id="logobrand" src="{{URL::asset('image/LogoBig.png')}}" width="60" height="75"/> </a>
+            <div class="navbar-header"><a class="navbar-brand" href="/index"><img id="logobrand" src="{{URL::asset('image/LogoBig.png')}}" width="60" height="75"/> </a>
                 <li id="langiconsmobile">
                     <ul>
                         @if($mainConfigValues["langnl"] == "1")
@@ -147,7 +147,7 @@
                      <ul class="nav navbar-nav navbar-left">
                          <li>
                              <div class="menutitle salebutton">
-                                 <a class="menutitle" href="{{ url('/promotionPage') }}">Promo's</a>
+                                 <a class="menutitle" href="/promotionPage">Promo's</a>
                              </div>
                          </li>
                          <li>
@@ -165,14 +165,14 @@
                                  </div>
                              </div>
                          </li>
-                        <li><a class="menutitle" href="{{ url('/contact') }}">Contact</a>
+                        <li><a class="menutitle" href="/contact">Contact</a>
                             <div class="magicline"></div>
                         </li>
                      </ul>
                     </div>
                     <div class="col-md-1 col-md-offset-2">
                         <div class="container_cart">
-                            <a href="{{ url('/cart/open')}}" id="cart"><i class="fa fa-shopping-cart"></i>  <span class="badge" id="cartAmountItems">{{Session::get('cartAmount', '0')}}</span></a>
+                            <a href="/cart/open" id="cart"><i class="fa fa-shopping-cart"></i>  <span class="badge" id="cartAmountItems">{{Session::get('cartAmount', '0')}}</span></a>
                         </div>
                     </div>
 
@@ -330,7 +330,7 @@
         if (keyword.length >= min_length) {
             $.ajax({
                 type: "GET",
-                url: "{{ url('/search')}}",
+                url: "/search",
                 data: {"keyword": keyword},
                 cache: false,
                 success:function(data){
@@ -342,9 +342,7 @@
             $('#product_list_id').css("display","none");
         }
     });
-    $(document).on('click','.listItemSearch',function(){
-        <?php Session::put('subcategoryFilter','');?>;
-    });
+
     $(document).click(function(e) {
         if( e.target.id != 'product_list_id') {
             $("#product_list_id").css("display","none");
@@ -403,10 +401,7 @@
             userRegistrationSuccess();
         }else{
             className = className.substring(1);
-            console.log("className : ",className)
-            if(className != ""){
-                $("." + className).trigger("click");
-            }
+            $("." + className).trigger("click");
         }
     });
 

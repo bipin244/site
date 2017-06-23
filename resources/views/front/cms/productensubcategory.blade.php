@@ -1,6 +1,15 @@
 @extends('front.template.main')
 @section('content')
-    <div class="row spacerbig"></div>
+    <div class="row spacersmall"></div>
+    <div class="row">
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-8">
+            {!! Breadcrumbs::render('subCategoryShow',$id,$clickedCategory) !!}
+        </div>
+    </div>
+    <div class="row spacersmall"></div>
     <div class="container">
         <div class="row">
             <div class="col-md-3">
@@ -16,7 +25,7 @@
                                         @foreach($categories as $category)
                                             <li class="margintrue">
                                                 <label>
-                                                    <a href="{{ url('/subCategoryShow') }}/{{$category->id}}/{{$tellerFilter}}" data-toggle="collapse" data-target="#{{$tellerFilter}}" class="collapsed headCatLink" data-param-id="{{$category->id}}" aria-expanded="false"><?php echo $category->{'naam_' . $lang};?>@if($category->subCategories != null)<i class="fa fa-plus" style="margin-left:10px;"></i>@endif</a>
+                                                    <a href="/subCategoryShow/{{$category->id}}/{{$tellerFilter}}" data-toggle="collapse" data-target="#{{$tellerFilter}}" class="collapsed headCatLink" data-param-id="{{$category->id}}" aria-expanded="false"><?php echo $category->{'naam_' . $lang};?>@if($category->subCategories != null)<i class="fa fa-plus" style="margin-left:10px;"></i>@endif</a>
                                                 </label>
                                                 @if($category->subCategories != null)
                                                     <ul id="{{$tellerFilter}}" data-param-id="{{$category->id}}" class="collapseItem collapse" aria-expanded="false" style="height: 0px;">
@@ -24,20 +33,20 @@
                                                             <div class="checkbox categories" style="margin-left:10px;">
                                                                 <label>
                                                                     <?php if(sizeof($subCategory->subCategories) == 0){?>
-                                                                    <input type="checkbox" data-url="{{ url('/subcategoryFilter')}}/{{$subCategory->id}}"  data-param-id="{{$subCategory->id}}" class="subCategory" value="">
+                                                                    <input type="checkbox" data-url="/subcategoryFilter/{{$subCategory->id}}"  data-param-id="{{$subCategory->id}}" class="subCategory" value="">
                                                                     <span class="cr"></span>
-                                                                    <li><a href="{{ url('/subcategoryFilter')}}/{{$subCategory->id}}" data-param-id="{{$subCategory->id}}"><?php echo $subCategory->{'naam_' . $lang};?><span></span></a></li>
+                                                                    <li><a href="/subcategoryFilter/{{$subCategory->id}}" data-param-id="{{$subCategory->id}}"><?php echo $subCategory->{'naam_' . $lang};?><span></span></a></li>
                                                                     <?php }else{?>
                                                                     <input type="checkbox" data-url="/subSubCategoryShow/{{$subCategory->id}}/{{$tellerFilterSub}}"  data-param-id="{{$subCategory->id}}" class="subCategory" value="">
                                                                     <span class="cr"></span>
-                                                                    <a href="{{ url('/subSubCategoryShow')}}/{{$subCategory->id}}/{{$tellerFilterSub}}" data-toggle="collapse" data-target="#{{$tellerFilterSub}}" class="collapsed headCatLink" data-param-id="{{$category->id}}" aria-expanded="false"><?php echo $subCategory->{'naam_' . $lang};?>@if($subCategory->subCategories != null)<i class="fa fa-plus" style="margin-left:10px;"></i>@endif</a>
+                                                                    <a href="/subSubCategoryShow/{{$subCategory->id}}/{{$tellerFilterSub}}" data-toggle="collapse" data-target="#{{$tellerFilterSub}}" class="collapsed headCatLink" data-param-id="{{$category->id}}" aria-expanded="false"><?php echo $subCategory->{'naam_' . $lang};?>@if($subCategory->subCategories != null)<i class="fa fa-plus" style="margin-left:10px;"></i>@endif</a>
                                                                     <ul id="{{$tellerFilterSub}}" data-param-id="{{$subCategory->id}}" class="collapseItem collapse" aria-expanded="false" style="height: 0px;">
                                                                         @foreach($subCategory->subCategories as $subSubCategory)
                                                                             <div class="checkbox categories" style="margin-left:10px;">
                                                                                 <label>
-                                                                                    <input type="checkbox" data-url="{{ url('/subcategoryFilter')}}/{{$subSubCategory->id}}" class="subCategory" value="">
+                                                                                    <input type="checkbox" data-url="/subcategoryFilter/{{$subSubCategory->id}}" class="subCategory" value="">
                                                                                     <span class="cr"></span>
-                                                                                    <li><a href="{{ url('/subcategoryFilter')}}/{{$subSubCategory->id}}" data-param-id="{{$subSubCategory->id}}"><?php echo $subSubCategory->{'naam_' . $lang};?><span></span></a></li>
+                                                                                    <li><a href="/subcategoryFilter/{{$subSubCategory->id}}" data-param-id="{{$subSubCategory->id}}"><?php echo $subSubCategory->{'naam_' . $lang};?><span></span></a></li>
                                                                                 </label>
                                                                             </div>
                                                                         @endforeach
@@ -61,7 +70,6 @@
                 </div>
             </div>
             <div id="allproductscontainer" class="col-md-9">
-            {!! Breadcrumbs::render('subCategoryShow',$id,$clickedCategory) !!}
                 <?php $teller = 1;?>
                 @foreach($selectedCategories as $selectedCategory)
                     <?php if($teller > 1){?>
@@ -71,9 +79,9 @@
                 }?>
                     <div class="col-md-4">
                         <?php if(isset($selectedCategory->hasChilds)){?>
-                            <a href="{{ url('/subSubCategoryShow')}}/{{$selectedCategory->id}}/{{$tellerFilterSub2}}">
+                            <a href="/subSubCategoryShow/{{$selectedCategory->id}}/{{$tellerFilterSub2}}">
                         <?php }else{?>
-                            <a href="{{ url('/subcategoryFilter')}}/{{$selectedCategory->id}}">
+                            <a href="/subcategoryFilter/{{$selectedCategory->id}}">
                         <?php }?>
                             <div class="product-image-wrapper">
                                 <div class="single-products">
@@ -85,11 +93,11 @@
                                         <?php }?>
                                         <h2><?php echo $selectedCategory->{"naam_" . $lang}; ?></h2>
                                         <?php if(isset($selectedCategory->hasChilds)){?>
-                                        <a href="{{ url('/subSubCategoryShow')}}/{{$selectedCategory->id}}/{{$tellerFilterSub2}}" class="btn btn-default add-to-cart">Bekijk deze categorie</a>
+                                        <a href="/subSubCategoryShow/{{$selectedCategory->id}}/{{$tellerFilterSub2}}" class="btn btn-default add-to-cart">Bekijk deze categorie</a>
                                         <?php
                                         $tellerFilterSub2++;
                                         }else{?>
-                                        <a href="{{ url('/subcategoryFilter') }}/{{$selectedCategory->id}}" class="btn btn-default add-to-cart">Bekijk deze categorie</a>
+                                        <a href="/subcategoryFilter/{{$selectedCategory->id}}" class="btn btn-default add-to-cart">Bekijk deze categorie</a>
                                         <?php }?>
                                     </div>
                                 </div>
@@ -113,9 +121,9 @@
                         }?>
                         <div class="col-md-4">
                             <?php if(isset($selectedCategory->hasChilds)){?>
-                                <a href="{{ url('/subSubCategoryShow')}}/{{$selectedCategory->id}}/{{$tellerFilterSub2}}">
+                                <a href="/subSubCategoryShow/{{$selectedCategory->id}}/{{$tellerFilterSub2}}">
                             <?php }else{?>
-                                <a href="{{ url('/subcategoryFilter')}}/{{$selectedCategory->id}}">
+                                <a href="/subcategoryFilter/{{$selectedCategory->id}}">
                             <?php }?>
                                 <div class="product-image-wrapper">
                                     <div class="single-products">
@@ -127,11 +135,11 @@
                                             <?php }?>
                                             <h2><?php echo $selectedCategory->{"naam_" . $lang}; ?></h2>
                                             <?php if(isset($selectedCategory->hasChilds)){?>
-                                            <a href="{{ url('/subSubCategoryShow')}}/{{$selectedCategory->id}}/{{$tellerFilterSub2}}" class="btn btn-default add-to-cart">Bekijk deze categorie</a>
+                                            <a href="/subSubCategoryShow/{{$selectedCategory->id}}/{{$tellerFilterSub2}}" class="btn btn-default add-to-cart">Bekijk deze categorie</a>
                                             <?php
                                             $tellerFilterSub2++;
                                             }else{?>
-                                            <a href="{{ url('/subcategoryFilter')}}/{{$selectedCategory->id}}" class="btn btn-default add-to-cart">Bekijk deze categorie</a>
+                                            <a href="/subcategoryFilter/{{$selectedCategory->id}}" class="btn btn-default add-to-cart">Bekijk deze categorie</a>
                                             <?php }?>
                                         </div>
                                     </div>

@@ -5,7 +5,11 @@
 
 	<script type="text/javascript" src="{{URL::asset('fine/jquery.fine-uploader.js')}}"></script>
 
+	<script type="text/javascript" src="{{URL::asset('js/select2.full.min.js')}}"></script>
+
 	<link href="{{URL::asset('fine/fine-uploader-new.css')}}" rel="stylesheet">
+
+	<link href="{{URL::asset('css/select2.min.css')}}" rel="stylesheet">
 
 	<link rel="stylesheet" media="screen" type="text/css" href="{{URL::asset('colorpicker/css/colorpicker.css')}}" />
 
@@ -102,6 +106,7 @@
 	</div>--}}
 
 	<div id="colorandsizerow" class="row spacersmallest insideparamdiv" style="display:none;">
+		<hr style="height:3px;border:none;color:#4d4d4d; background-color:#4d4d4d;">
 		<div class="col-md-7">
 			<div class="row">
 				<div class="col-md-3 productNrCol"><input id="productNrs" name="productNr[]" type="text" class="form-control productNrsValue" placeholder="productNr" /></div>
@@ -130,14 +135,7 @@
 					<input id="EANNumberSingle" name="EANNumbers[]" type="text" class="form-control" placeholder="EAN-nummer" />
 					<div class="spacersmallest"></div>
                     <textarea name="searchIndexes[]" id="searchIndexe" rows="3" class="form-control" placeholder="Zoektermen opgeven (zoekterm1, zoekterm2, ...)"></textarea>
-                    <div class="spacersmallest"></div>
-                    <input id="verpakkingsaantal" name="verpakkingsaantal[]" type="text" class="form-control" placeholder="Verpakkingseenheid" />
-					<div class="spacersmallest"></div>
-					<select name="verpakkingsEenheden[]" id="verpakkingsEenheden" class="form-control selectVeenheid">
-						@foreach($veenheden as $veenheid)
-							<option value="{{$veenheid->id}}">{{$veenheid->verpakking_nl}}</option>
-						@endforeach
-					</select>
+
                 </div>
 				<div class="col-md-8">
 					<div class="form-group" style="min-height: 200px;">
@@ -158,6 +156,22 @@
 								<select name="selectedRelated[]" class="selectedRelated" disabled>
 
 								</select>
+							</div>
+						</div>
+						<label for="verpakkingseenheden">VerpakkingsEenheden</label>
+						<div class="row">
+							<div class="col-md-4">
+								<input id="verpakkingsEenhedenAmount" name="verpakkingsEenhedenAmount[]" type="text" class="form-control" placeholder="Verpakkingseenheid" />
+							</div>
+							<div class="col-md-4">
+								<select name="verpakkingsEenheden[]" id="verpakkingsEenheden" class="form-control selectVeenheid">
+									@foreach($veenheden as $veenheid)
+										<option value="{{$veenheid->id}}">{{$veenheid->verpakking_nl}}</option>
+									@endforeach
+								</select>
+							</div>
+							<div class="col-md-2">
+								<a class="addVerpakkingsEenheid btn btn-sml btn-primary">Verpakkingseenheid toevoegen</a>
 							</div>
 						</div>
 					</div>
@@ -195,7 +209,7 @@
 		</div><!-- /.box-header -->
 		<div class="box-body">
 			<div class="categoryTemplate" style="display:none">
-				<div class="col-md-2">
+				{{--<div class="col-md-2">
 					<label>Hoofdcategorie</label>
 					<select class="form-control hoofdcategorie">
 						@foreach($categories as $key => $category)
@@ -210,6 +224,55 @@
 							<option value="{{$category->id}}">{{$category->naam_nl}}</option>
 						@endforeach
 					</select>
+				</div>--}}
+					<div class="col-md-2">
+						<label>Category</label>
+						<a id="removeCat"><i class="glyphicon glyphicon-remove-sign" style="margin-top:6px;"></i></a>
+						<select name="categoryselection[]" id="categoryselection" class="form-control categoryselection select2initnew">
+							@foreach($categoriesToPickFrom as $category)
+								<option value="{{$category->id}}">{{$category->naam_nl}}</option>
+							@endforeach
+						</select>
+					</div>
+
+			</div>
+
+			<div class="verpakkingsEenheidTemplate" style="display:none;">
+				<div class="row spacersmallest"></div>
+				<div class="row">
+					<div class="col-md-1">
+						<a id="removeVerpakkings"><i class="glyphicon glyphicon-remove-sign" style="margin-top:6px;"></i></a>
+					</div>
+					<div class="col-md-3">
+						<input id="verpakkingsEenhedenSingleAmount" name="verpakkingsEenhedenSingleAmount[]" type="text" class="form-control" placeholder="Verpakkingseenheid" />
+					</div>
+					<div class="col-md-2">
+						<select name="verpakkingsEenhedenSingle[]" id="verpakkingsEenhedenSingle" class="form-control selectVeenheid">
+							@foreach($veenheden as $veenheid)
+								<option value="{{$veenheid->id}}">{{$veenheid->verpakking_nl}}</option>
+							@endforeach
+						</select>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="verpakkingsEenheidMultiTemplate" style="display:none;">
+				<div class="row spacersmallest"></div>
+				<div class="row">
+					<div class="col-md-1">
+						<a id="removeVerpakkings"><i class="glyphicon glyphicon-remove-sign" style="margin-top:6px;"></i></a>
+					</div>
+					<div class="col-md-5">
+						<input id="verpakkingsEenhedenAmount" name="verpakkingsEenhedenAmount[]" type="text" class="form-control" placeholder="Verpakkingseenheid" />
+					</div>
+					<div class="col-md-4">
+						<select name="verpakkingsEenheden[]" id="verpakkingsEenheden" class="form-control selectVeenheid">
+							@foreach($veenheden as $veenheid)
+								<option value="{{$veenheid->id}}">{{$veenheid->verpakking_nl}}</option>
+							@endforeach
+						</select>
+					</div>
 				</div>
 			</div>
 		    <form id="formCreateProduct" action="{{route('admin.product.store')}}" role="form" class="form" method="post">
@@ -232,7 +295,7 @@
 
 				<div class="form-group">
 					<div class="row categorySelectionContainer">
-						<div class="col-md-2">
+						{{--<div class="col-md-2">
 							<label>Hoofdcategorie</label>
 							<select class="form-control hoofdcategorie">
 								@foreach($categories as $key => $category)
@@ -247,6 +310,14 @@
 									<option value="{{$category->id}}">{{$category->naam_nl}}</option>
 								@endforeach
 							</select>
+						</div>--}}
+						<div class="col-md-2">
+							<label>Category</label>
+							<select name="categoryselection[]" id="categoryselection" class="form-control categoryselection select2init">
+								@foreach($categoriesToPickFrom as $category)
+									<option value="{{$category->id}}">{{$category->naam_nl}}</option>
+								@endforeach
+							</select>
 						</div>
 					</div>
 					<div class="row spacersmallest"></div>
@@ -256,7 +327,10 @@
 						</div>
 					</div>
 				</div>
-
+				<div class="form-group">
+					<label for="title">Uniek product<span class="text text-danger">*</span></label>
+					<input type="checkbox" name="active"/>
+				</div>
 		        <div class="form-group">
 		          <label for="title">Naam<span class="text text-danger">*</span></label>
 					<div class="row">
@@ -317,10 +391,45 @@
 				</div>
 
 				<script>
-					$(document).on('click', '.addCategory', function() {
-						var $categoryClone = $(".categoryTemplate").clone();
-						$(".categorySelectionContainer").append($categoryClone.html());
+					$(document).on('click','#removeCat', function(){
+						$(this).parent().remove();
 					});
+
+					$(document).on('click','#removeVerpakkings',function(){
+                        $(this).parent().parent().prev().remove();
+                        $(this).parent().parent().remove();
+					});
+
+					$(document).on('click', '.addCategory', function() {
+						$(".categorySelectionContainer").children().each(function(index, element){
+							$(this).find("select").select2("destroy");
+						});
+
+                        var $categoryClone = $(".categoryTemplate").clone();
+                        $(".categorySelectionContainer").append($categoryClone.html());
+
+                        $(".categorySelectionContainer").children().each(function(index, element){
+                            $(this).find("select").select2();
+                        });
+					});
+
+					$(document).on('click','.addVerpakkingsEenheidSingle',function(){
+                        var $categoryClone = $(".verpakkingsEenheidTemplate").clone();
+                        $(".verpakkingsEenheidSingleContainer").append($categoryClone.html());
+					});
+
+                    $(document).on('click','.addVerpakkingsEenheid',function(){
+                        console.log("start clone VPE");
+                        var $categoryClone = $(".verpakkingsEenheidMultiTemplate").clone();
+
+                        var nameVPE = $(this).parent().parent().find('select[name^="verpakkingsEenheden"]').attr('name');
+                        var nameVPEAmount = $(this).parent().parent().find('input[name^="verpakkingsEenhedenAmount"]').attr('name');
+                        console.log("Naam van VPE = " + nameVPE);
+                        $categoryClone.find('select[name^="verpakkingsEenheden"]').attr('name',nameVPE);
+                        $categoryClone.find('input[name^="verpakkingsEenhedenAmount"]').attr('name',nameVPEAmount);
+                        $(this).parent().parent().parent().append($categoryClone.html());
+
+                    });
 
                     var categories = <?php echo json_encode($categories); ?>;
                     $(document).on('change', '.hoofdcategorie', function(e) {
@@ -337,18 +446,21 @@
                     });
 				</script>
 
-				<div class="form-group">
+				<div class="form-group verpakkingsEenheidSingleContainer">
 					<label for="category">Verpakkingseenheid</label>
 					<div class="row">
 						<div class="col-md-3">
-							<input id="verpakkingsEenheidSingle" name="verpakkingsEenheidSingle" type="text" class="form-control" placeholder="Verpakkingseenheid" />
+							<input id="verpakkingsEenhedenSingle" name="verpakkingsEenhedenSingleAmount[]" type="text" class="form-control" placeholder="Verpakkingseenheid" />
 						</div>
 						<div class="col-md-2">
-							<select name="verpakkingsEenhedenSingle" id="verpakkingsEenhedenSingle" class="form-control selectVeenheid">
+							<select name="verpakkingsEenhedenSingle[]" id="verpakkingsEenhedenSingle" class="form-control selectVeenheid">
 								@foreach($veenheden as $veenheid)
 									<option value="{{$veenheid->id}}">{{$veenheid->verpakking_nl}}</option>
 								@endforeach
 							</select>
+						</div>
+						<div class="col-md-3">
+							<a class="addVerpakkingsEenheidSingle btn btn-sml btn-primary">Verpakkingseenheid toevoegen</a>
 						</div>
 					</div>
 				</div>
@@ -438,7 +550,9 @@
 					var tellerke = 1;
 
 
-
+					$(document).ready(function(){
+					    $(".select2init").select2();
+					});
 
 					function bindUploader($element) {
 							$element.fineUploader({
@@ -564,6 +678,9 @@
 						$('#addsize').parent().css("display","block");
 						$('#addcolorsize').parent().css("display","block");
 						$('#addcolor').parent().css("display","block");
+                        $('.verpakkingsEenheidSingleContainer').css("display","block");
+                        $('#productNr').children(":first").children(":first").next().css("display","block");
+                        $('#productNr').children(":first").children(":first").css("display","block");
 						$('#removeallinsides').css("display","none");
 						$('#productNrRow').show();
 					});
@@ -577,6 +694,9 @@
 							$('#addsize').parent().css("display","block");
 							$('#addcolorsize').parent().css("display","block");
 							$('#addcolor').parent().css("display","block");
+                            $('.verpakkingsEenheidSingleContainer').css("display","block");
+                            $('#productNr').children(":first").children(":first").next().css("display","block");
+                            $('#productNr').children(":first").children(":first").css("display","block");
 							$('#productNrRow').show();
 						}
 					});
@@ -604,13 +724,22 @@
 							$(this).attr("style","display:block;");
 						});
 					});
-
+					var tellerVPE = 0;
 					$('#addcolorsize').click(function(){
 						$('#removeallinsides').css("display","block");
 						$('#addsize').parent().css("display","none");
 						$('#addcolor').parent().css("display","none");
+						$('.verpakkingsEenheidSingleContainer').css("display","none");
+						$('#productNr').children(":first").children(":first").next().css("display","none");
+                        $('#productNr').children(":first").children(":first").css("display","none");
 						$('#productNrRow').hide();
+                        tellerVPE += 1;
                         var $row = $('#colorandsizerow').clone();
+                        $row.find('select[name="verpakkingsEenheden[]"]').attr('name','verpakkingsEenheden' + tellerVPE + "[]");
+                        $row.find('input[name="verpakkingsEenhedenAmount[]"]').attr('name','verpakkingsEenhedenAmount' + tellerVPE + "[]");
+                        console.log("FINDING VERPAKKINGSEENHEID ELEMENT");
+
+
                         bindUploader($row.find('.uploadImage'));
                         $row.appendTo('#sizesdiv');
                         $('#sizesdiv > #colorandsizerow').each(function(){
@@ -783,15 +912,41 @@
 						}
 						e.preventDefault();
 					}
-
+					if($("#title_nl").val() == ""){
+                        Command: toastr["error"]("Er is geen naam ingevuld voor dit product bovenaan de pagina.", "Vul minstens de Nederlandse naam in.")
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        e.preventDefault();
+					}
+                    productNrsTrue = false;
 					if($("#formCreateProduct").find(".productNrsValue").length !== 0){
 						productNrsTrue = true;
 					}
 
+                    allProductNrsSet = true;
 					$("#formCreateProduct").find(".productNrsValue").each(function(i,obj){
-						if($(this).val() == ""){
-							allProductNrsSet = false;
-						}
+						console.log("init form product nrs");
+						console.log($(obj));
+						console.log("Value from productNrs = " + $(obj).val());
+                            if($(obj).val() == ""){
+                                allProductNrsSet = false;
+                            }
+
 					});
 
 

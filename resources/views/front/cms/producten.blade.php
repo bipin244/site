@@ -16,7 +16,7 @@
                                         @foreach($categories as $category)
                                         <li>
                                             <label>
-                                                <a href="{{ url('/subCategoryShow') }}/{{$category->id}}/{{$tellerFilter}}" data-toggle="collapse" data-target="#{{$tellerFilter}}" class="collapsed" data-param-id="{{$category->id}}" aria-expanded="false"><?php echo $category->{'naam_' . $lang};?>@if($category->subCategories != null)<i class="fa fa-plus" style="margin-left:10px;"></i>@endif</a>
+                                                <a href="/subCategoryShow/{{$category->id}}/{{$tellerFilter}}" data-toggle="collapse" data-target="#{{$tellerFilter}}" class="collapsed" data-param-id="{{$category->id}}" aria-expanded="false"><?php echo $category->{'naam_' . $lang};?>@if($category->subCategories != null)<i class="fa fa-plus" style="margin-left:10px;"></i>@endif</a>
                                             </label>
                                             @if($category->subCategories != null)
                                                 <ul id="{{$tellerFilter}}" class="collapseItem collapse" aria-expanded="false" style="height: 0px;">
@@ -25,7 +25,7 @@
                                                         <label>
                                                             <input type="checkbox" class="subCategory" value="">
                                                             <span class="cr"></span>
-                                                            <li><a href="{{ url('/subcategoryFilter') }}/{{$subCategory->id}}" data-param-id="{{$subCategory->id}}"><?php echo $subCategory->{'naam_' . $lang};?><span></span></a></li>
+                                                            <li><a href="/subcategoryFilter/{{$subCategory->id}}" data-param-id="{{$subCategory->id}}"><?php echo $subCategory->{'naam_' . $lang};?><span></span></a></li>
                                                         </label>
                                                     </div>
                                                     @endforeach
@@ -52,7 +52,7 @@
                    echo '<div class="row">';
                 }?>
                     <div class="col-md-4">
-                        <a href="{{ url('/productdetails') }}/{{$product->product_id}}">
+                        <a href="/productdetails/{{$product->product_id}}">
                             <div class="product-image-wrapper">
                                 <div class="single-products">
                                     <div class="productinfo text-center">
@@ -64,7 +64,7 @@
                                 </div>
                                 <div class="choose">
                                     <ul class="nav nav-pills nav-justified">
-                                        <li><a href="{{ url('/productdetails') }}/{{$product->product_id}}"><i class="fa fa-plus-square"></i> Details bekijken</a></li>
+                                        <li><a href="/productdetails/{{$product->product_id}}"><i class="fa fa-plus-square"></i> Details bekijken</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -85,7 +85,7 @@
                             echo '<div class="row">';
                         }?>
                         <div class="col-md-4">
-                            <a href="{{ url('/productdetails') }}/{{$product->product_id}}">
+                            <a href="/productdetails/{{$product->product_id}}">
                                 <div class="product-image-wrapper">
                                     <div class="single-products">
                                         <div class="productinfo text-center">
@@ -97,7 +97,7 @@
                                     </div>
                                     <div class="choose">
                                         <ul class="nav nav-pills nav-justified">
-                                            <li><a href="{{ url('/productdetails') }}/{{$product->product_id}}"><i class="fa fa-plus-square"></i> Details bekijken</a></li>
+                                            <li><a href="/productdetails/{{$product->product_id}}"><i class="fa fa-plus-square"></i> Details bekijken</a></li>
                                         </ul>
                                     </div>
                                 </div>

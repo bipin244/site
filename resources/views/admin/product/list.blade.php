@@ -21,6 +21,10 @@
                         <th>Sub Product toevoegen</th>
                         <th>Nieuw product</th>
                         <th>In promotie</th>
+                        <th>Uniek</th>
+                        <th>Aangemaakt</th>
+                        <th>Aangepast</th>
+                        <th>X</th>
                     </tr>
                     </thead>
                     <tbody id="bodyItems">
@@ -35,7 +39,23 @@
     <script>
         $(document).ready(function(){
             $('#bootstrapDataTable').DataTable({
-                "bLengthChange": false
+                "bLengthChange": false,
+                "columns": [
+                    {"width" : "5%"},
+                    {"width" : "13%"},
+                    {"width" : "8%"},
+                    {"width" : "10%"},
+                    {"width" : "8%"},
+                    {"width" : "5%"},
+                    {"width" : "10%"},
+                    {"width" : "8%"},
+                    {"width" : "5%"},
+                    {"width" : "5%"},
+                    {"width" : "6%"},
+                    {"width" : "6%"},
+                    {"width" : "6%"},
+                    {"width" : "3%"}
+                ]
             });
         });
 

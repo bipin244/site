@@ -19,14 +19,14 @@
                         <tr>
                           <td><a href="{{route('admin.showAllPriceLists.edit', $page->Id)}}">{{$page->name}}</a></td>
                           <td>
-                                <a href="{{route('admin.showAllPriceLists.edit', $page->Id)}}" class="btn btn-sml btn-primary"><i class="fa fa-pencil"></i> Edit Price List</a>
-                                <a href="{{route('admin.showAllPriceLists.user', $page->Id)}}" class="btn btn-sml btn-primary"><i class="fa fa-pencil"></i> Add User</a>
+                                <a href="{{route('admin.showAllPriceLists.edit', $page->Id)}}" class="btn btn-sml btn-primary"><i class="fa fa-pencil"></i> Prijslijst bewerken</a>
+                                <a href="{{route('admin.showAllPriceLists.user', $page->Id)}}" class="btn btn-sml btn-primary"><i class="fa fa-pencil"></i> Gekoppelde gebruikers bewerken</a>
                           	</td>
                         </tr>
                     @endforeach
                 </table>
             @else
-                <div class="col-md-12"><p class="alert alert-warning">No page to show</p></div>
+                <div class="col-md-12"><p class="alert alert-warning">Nog geen prijslijsten aangemaakt ga naar het menu links om er één aan te maken.</p></div>
             @endif
         </div><!-- /.box-body -->
         @include('admin.template.pagination', ['pages' => $pages])

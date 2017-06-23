@@ -42,7 +42,7 @@ Route::get('/newCoating', 'Admin\ProductController@addCoating');
 Route::get('/updateColor', 'Admin\ProductController@updateColor');
 Route::get('/promotionPage', ['uses' => 'PostController@promotionPage', 'as' => 'promotionPage']);
 Route::get('/admin/configUpdate', 'PostController@configUpdate');
-Route::get('/admin/configuration', 'PostController@adminConfiguration');
+
 Route::get('/admin/langupdate', 'PostController@langUpdate');
 //Route::get('/admin/showAllPriceLists','Admin\PriceListController@allPriceLists');
 Route::get('/user/activateUser/{id}/{key}/{rawpass}', 'PostController@activateUser');
@@ -79,24 +79,33 @@ Route::group(['middleware' => ['web'] ], function () {
     Route::get('logout', 	['as'  	=> 'logout', 	'uses' => 'Auth\AuthController@getLogout']);
 
     Route::group(['prefix' => 'admin', 'middleware' => ['auth'] ], function () {
-        Route::get('/', 			'Admin\AdminController@index');
-        Route::resource('user', 	'Admin\UserController');
-        Route::resource('post', 	'Admin\PostController');
-        Route::resource('page', 	'Admin\PageController');
-        Route::resource('product',  'Admin\ProductController');
-       
-        Route::get('/category', 'Admin\CategoryController@index');
-        Route::post('/category/update', 'Admin\CategoryController@update');
-        Route::post('/category/order', 'Admin\CategoryController@updateOrder');
-        Route::resource('upload', 	'Admin\UploadController');
-        Route::resource('uploadDelete', 'Admin\UploadController@destroy');
-        Route::resource('editColor', 'Admin\PageController@colors');
-        Route::resource('editCoating', 'Admin\PageController@coatings');
+
     });
 });
+
 Route::group(['prefix' => 'admin', 'middleware' => ['auth'] ], function () {
     Route::resource('showAllPriceLists','Admin\PriceListController');
     Route::get('showAllPriceLists/User/{id}', [ 'as' => 'admin.showAllPriceLists.user', 'uses' => 'Admin\PriceListController@getUser']);
     Route::post('showAllPriceLists/addUser', [ 'as' => 'admin.showAllPriceLists.addUser', 'uses' => 'Admin\PriceListController@addUser']);
+    Route::get('/', 			'Admin\AdminController@index');
+    Route::resource('user', 	'Admin\UserController');
+    Route::resource('post', 	'Admin\PostController');
+    Route::resource('page', 	'Admin\PageController');
+    Route::resource('product',  'Admin\ProductController');
+
+    Route::get('/clients', 'Admin\UserController@clients');
+    Route::get('/saveKlantNr', 'Admin\UserController@saveKlantNr');
+    Route::get('/passReset', 'Admin\UserController@passReset');
+    Route::get('/setProductInactive/{productId}/{productNr}', 'Admin\ProductController@setProductInactive');
+    Route::get('/configuration', 'PostController@adminConfiguration');
+    Route::get('/category', 'Admin\CategoryController@index');
+    Route::post('/category/update', 'Admin\CategoryController@update');
+    Route::post('/category/order', 'Admin\CategoryController@updateOrder');
+    Route::post('/clientDelete/{visitorId}','Admin\UserController@clientDelete');
+    Route::get('/clientDelete/{visitorId}','Admin\UserController@clientDelete');
+    Route::resource('upload', 	'Admin\UploadController');
+    Route::delete('uploadDelete/{id}', 'Admin\UploadController@uploadDelete');
+    Route::get('editColor', 'Admin\PageController@colors');
+    Route::get('editCoating', 'Admin\PageController@coatings');
 });
 Route::resource('/{slug}/{lang?}', 'PageController@show');

@@ -5,9 +5,10 @@
             <h1 class="headerpage">OFFERTEMAND</h1>
         </div>
     </div>
+    <div class="row spacersmall"></div>
     <div class="row">
         <div class="col-md-2">
-            
+
         </div>
         <div class="col-md-8">
             {!! Breadcrumbs::render('cart') !!}
@@ -154,8 +155,8 @@
                                     <div class="form-group"><label>E-mail</label><input class="form-control required" placeholder="email" name="email" data-placement="top" data-trigger="manual" data-content="Must be at least 3 characters long, and must only contain letters." type="email" required></div>
                                     <div class="form-group"><label>Straat</label><input class="form-control required" placeholder="straatnaam" name="straatnaam" data-placement="top" data-trigger="manual" data-content="Must be at least 3 characters long, and must only contain letters." type="text" required></div>
                                     <div class="form-group"><label>Huisnummer</label><input class="form-control" placeholder="huisnummer" name="huisnummer" data-placement="top" data-trigger="manual" required/></div>
+                                    <div class="form-group"><label>Postcode</label><input class="form-control phone" placeholder="provincie" name="postcode" data-placement="top" data-trigger="manual" data-content="Must be a valid phone number (999-999-9999)" type="text" required></div>
                                     <div class="form-group"><label>Stad</label><input class="form-control email" placeholder="stad/plaats" name="plaats" data-placement="top" data-trigger="manual" data-content="Must be a valid e-mail address (user@gmail.com)" type="text" required></div>
-                                    <div class="form-group"><label>Provincie</label><input class="form-control phone" placeholder="provincie" name="provincie" data-placement="top" data-trigger="manual" data-content="Must be a valid phone number (999-999-9999)" type="text" required></div>
                                     <div class="form-group"><label>Land</label><input class="form-control phone" placeholder="land" name="land" data-placement="top" data-trigger="manual" data-content="Must be a valid phone number (999-999-9999)" type="text" required></div>
                                     <input type="hidden" name="visitorId" value="0">
                                     <div class="checkbox">
@@ -244,7 +245,7 @@
             var cartIdToRemove = $(this).data("cartId");
             $.ajax({
                 type: "GET",
-                url: "{{ url('/removeCartItem')}}",
+                url: "/removeCartItem",
                 data: {"cartId": cartIdToRemove},
                 cache: false,
                 success: function(data){
@@ -268,7 +269,7 @@
             function getFilteredResultCount(){
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('/updateAmountCartItem')}}",
+                    url: "/updateAmountCartItem",
                     data: {"cartId": cartId, "newAmount": newAmount},
                     cache: false,
                     success: function(data){
@@ -285,7 +286,7 @@
                 $('input[name="visitorId"]').val(user.id);
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('/visitor/getDefaultAddress')}}",
+                    url: "/visitor/getDefaultAddress",
                     data: {"visitorId": user.id},
                     cache: false,
                     success: function(data){
@@ -298,7 +299,7 @@
                             $('input[name="straatnaam"]').val(data.straat);
                             $('input[name="huisnummer"]').val(data.huisnummer);
                             $('input[name="plaats"]').val(data.stad);
-                            $('input[name="provincie"]').val(data.provincie);
+                            $('input[name="postcode"]').val(data.postcode);
                             $('input[name="land"]').val(data.land);
                         }
                         $('input[name="bedrijfsnaam"]').val(user.bedrijfsnaam);

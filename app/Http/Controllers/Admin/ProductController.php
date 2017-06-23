@@ -11,6 +11,7 @@ use App\Coating;
 use App\PageText;
 use App\VPEProduct;
 use App\Product;
+use App\VPE;
 use App\ProductImg;
 use App\ProductImgRel;
 use App\ProductParam;
@@ -40,6 +41,14 @@ class ProductController extends Controller
         $categories = Category::where('subcategoryId', null)->get();
         $subcategories = Category::where('subcategoryId', '!=', null)->get();
 
+        $allCats = Category::all('subcategoryId');
+        $allCatIds = array();
+        foreach($allCats as $currentCat){
+            if($currentCat['subcategoryId'] != null){
+                array_push($allCatIds,$currentCat['subcategoryId']);
+            }
+        }
+
         foreach($categories as $key => $category){
             $tempcats = array();
             foreach($subcategories as $subcategory){
@@ -59,10 +68,13 @@ class ProductController extends Controller
             $categories[$key]->subcategories = $tempcats;
         }
 
+
+        $categoriesToPickFrom = Category::whereNotIn('id',$allCatIds)->get();
+
         $colors = Color::all();
         $coatings = Coating::all();
         $veenheden = DB::table('verpakkingseenheden')->get();
-        return view('admin.product.create', ['categories' => $categories,'subcategories' => $subcategories, 'colors' => $colors, 'coatings' => $coatings,'veenheden' => $veenheden]);
+        return view('admin.product.create', ['categories' => $categories,'subcategories' => $subcategories, 'colors' => $colors, 'coatings' => $coatings,'veenheden' => $veenheden,'categoriesToPickFrom' => $categoriesToPickFrom]);
 
 
     }
@@ -192,6 +204,21 @@ class ProductController extends Controller
         return redirect("/admin/showAllProducts");
     }
 
+    public function setProductInactive($productId, $productNr){
+        $productParam = ProductParam::where('productNr', $productNr)->first();
+        if($productParam != null){
+            $productParam->active = 0;
+            $productParam->save();
+        }else{
+            $product = Product::where('productNr', $productNr)->first();
+            if($product != null){
+                $product->active = 0;
+                $product->save();
+            }
+        }
+        return $this->getAllProductsDataTable();
+    }
+
     public function getAllProductsDataTable(){
         $producten = DB::table('products')
             ->join('product_params', 'products.id', '=', 'product_params.productId')
@@ -199,7 +226,9 @@ class ProductController extends Controller
             ->join('product_imgs', 'product_img_relations.productImgId', '=', 'product_imgs.id')
             ->join('product_colors', 'product_params.colorId', '=', 'product_colors.id', 'left outer')
             ->join('product_coatings', 'product_params.coatingId', '=', 'product_coatings.id', 'left outer')
-            ->select(['*', 'products.id as product_id', 'product_imgs.id as image_id', 'product_colors.naam_nl as color_naam_nl', 'product_colors.naam_fr as color_naam_fr', 'product_colors.naam_de as color_naam_de', 'product_colors.naam_en as color_naam_en', 'product_params.productNr as paramProductNr', 'products.naam_nl as product_naam_nl', 'products.naam_fr as product_naam_fr', 'products.naam_de as product_naam_de', 'products.naam_en as product_naam_en'])
+            ->select(['*', 'products.id as product_id','product_params.created_at as product_created_at','product_params.updated_at as product_updated_at', 'product_imgs.id as image_id', 'product_colors.naam_nl as color_naam_nl', 'product_colors.naam_fr as color_naam_fr', 'product_colors.naam_de as color_naam_de', 'product_colors.naam_en as color_naam_en', 'product_params.productNr as paramProductNr', 'products.naam_nl as product_naam_nl', 'products.naam_fr as product_naam_fr', 'products.naam_de as product_naam_de', 'products.naam_en as product_naam_en'])
+            ->where('products.active',1)
+            ->where('product_params.active',1)
             ->where('headImg', 1)
             ->where('naam', 'like', '%(xsmall)%')
             ->get();
@@ -207,8 +236,9 @@ class ProductController extends Controller
         $productenSingle = DB::table('products')
             ->join('product_img_relations', 'products.id', '=', 'product_img_relations.productId')
             ->join('product_imgs', 'product_img_relations.productImgId', '=', 'product_imgs.id')
-            ->select(['*', 'products.id as product_id', 'product_imgs.id as image_id', 'products.naam_nl as product_naam_nl', 'products.naam_fr as product_naam_fr', 'products.naam_de as product_naam_de', 'products.naam_en as product_naam_en'])
+            ->select(['*', 'products.id as product_id', 'products.created_at as product_created_at', 'products.updated_at as product_updated_at', 'product_imgs.id as image_id', 'products.naam_nl as product_naam_nl', 'products.naam_fr as product_naam_fr', 'products.naam_de as product_naam_de', 'products.naam_en as product_naam_en'])
             ->where('headImg', 1)
+            ->where('products.active',1)
             ->whereNotNull('products.productNr')
             ->where('naam', 'like', '%(xsmall)%')
             ->get();
@@ -243,6 +273,10 @@ class ProductController extends Controller
                         $html .= "<td><input type='checkbox' class='nieuwproduct' data-product-nr='" . $productresult->productNr . "' /></td>";
                     }
                     $html .= "<td><input type='checkbox' class='sale' data-product-nr='" . $productresult->productNr . "' /></td>";
+                    $html .= "<td><a href='/admin/unique/" . $productresult->product_id . "/" . $productresult->productNr . "' class='btn btn-default'>Uniek</a></td>";
+                    $html .= "<td>" . $productresult->product_created_at . "</td>";
+                    $html .= "<td>" . $productresult->product_updated_at . "</td>";
+                    $html .= "<td><a href='/admin/setProductInactive/" . $productresult->product_id . "/" . $productresult->productNr . "' onClick=\"return confirm('BEN JE ZEKER DAT JE HET PRODUCT WIL VERWIJDEREN ? Deze zal hierna niet meer zichtbaar / bestelbaar zijn.')\"><i class='glyphicon glyphicon-remove-sign' style='margin-top:6px;'></i></a></td>";
                     $html .= "</tr>";
 
                     //$html .= "<li><a href='/productdetailsSubProduct/" . $productresult->product_id . "/" . $productresult->productNr . "' class='listItemSearch'><div class='row'><div class='col-md-2'><img src='" . URL::asset('uploads/' . $productresult->directory . '/' . $productresult->naam) . "' width='45px' height='45px' alt='NL'></div><div class='col-md-10'><div class='row'><div class='col-md-10'><p>" . $productresult->{'product_naam_' . $languageSession} . "</p></div></div><div class='row'><div class='col-md-10'> <p class='fontDescSearch'>" . $productresult->{'beschrijving_kort_' . $languageSession} . "</p></div></div></div></div></a></li>";
@@ -272,6 +306,10 @@ class ProductController extends Controller
                         $html .= "<td><input type='checkbox' class='nieuwproduct' data-product-nr='" . $productresult->productNr . "' /></td>";
                     }
                     $html .= "<td><input type='checkbox' class='sale' data-product-nr='" . $productresult->productNr . "' /></td>";
+                    $html .= "<td><a href='/admin/unique/" . $productresult->product_id . "/" . $productresult->productNr . "' class='btn btn-default'>Uniek</a></td>";
+                    $html .= "<td>" . $productresult->product_created_at . "</td>";
+                    $html .= "<td>" . $productresult->product_updated_at . "</td>";
+                    $html .= "<td><a href='/admin/setProductInactive/" . $productresult->product_id . "/" . $productresult->productNr . "' onClick=\"return confirm('BEN JE ZEKER DAT JE HET PRODUCT WIL VERWIJDEREN ? Deze zal hierna niet meer zichtbaar / bestelbaar zijn.')\"><i class='glyphicon glyphicon-remove-sign' style='margin-top:6px;'></i></a></td>";
                     $html .= "</tr>";
                 }
                 $prevProductNrs[] = $productresult->paramProductNr;
@@ -1195,7 +1233,11 @@ class ProductController extends Controller
         $product->verpakkingsEenheid = $request->input('verpakkingsEenheid');
 
 
-
+        if($request->has('active')){
+            $product->active = 0;
+        }else{
+            $product->active = 1;
+        }
 
 
         $jsonimgs = $request->input('mainimages');
@@ -1220,6 +1262,22 @@ class ProductController extends Controller
             $product->EANNumber = $request->input('EANNumberSingle');
             $product->levertermijn = "";
             $product->voorraad = 0;
+
+            $allVerpakkingsEenheden = VPE::all();
+            $verpakkingsEenhedenSingle = $request->input('verpakkingsEenhedenSingle');
+            $verpakkingsEenhedenSingleAmount = $request->input('verpakkingsEenhedenSingleAmount');
+
+            foreach($verpakkingsEenhedenSingle as $key => $verpakkingsEenheidSingle){
+                foreach($allVerpakkingsEenheden as $allVerpakkingsEenheid){
+                    if($verpakkingsEenheidSingle == $allVerpakkingsEenheid->id){
+                        $newVPEProduct = new VPEProduct();
+                        $newVPEProduct->verpakkingseenheid_id = $allVerpakkingsEenheid->id;
+                        $newVPEProduct->productNr = $product->productNr;
+                        $newVPEProduct->hoeveelheid = $verpakkingsEenhedenSingleAmount[$key];
+                        $newVPEProduct->save();
+                    }
+                }
+            }
         }
 
         $product->save();
@@ -1232,6 +1290,7 @@ class ProductController extends Controller
             $categoryProduct->category_id = $categorySelection;
             $categoryProduct->save();
         }
+
 
 
 
@@ -1259,7 +1318,7 @@ class ProductController extends Controller
                 $relatedProductSelected = $request->input('selectedRelated');
                 /*Meerdere productnrs*/
 
-
+                $tellerVPE = 0;
                 for ($i = 0; $i < sizeof($colors); $i++) {
                     $newProductParam = new ProductParam();
                     $newProductParam->productId = $product->id;
@@ -1274,16 +1333,31 @@ class ProductController extends Controller
                     $newProductParam->beschrijving_fr = $beschrijvingFR[$i];
                     $newProductParam->beschrijving_de = $beschrijvingDE[$i];
                     $newProductParam->beschrijving_en = $beschrijvingEN[$i];
+                    $found = false;
 
-                    if($verpakkingsAantallen[$i] != null && $verpakkingsAantallen[$i] != ""){
-                        $newVerpakkingsEenheid = new VPEProduct();
+                    do {
+                        if($request->has('verpakkingsEenheden' . $tellerVPE)){
+                            $amounts = $request->input('verpakkingsEenhedenAmount' . $tellerVPE);
+                            $VPEs = $request->input('verpakkingsEenheden' . $tellerVPE);
+                            if($amounts[0] != "" && $amounts[0] != null){
+                                foreach($amounts as $key => $amount){
+                                    $newVerpakkingsEenheid = new VPEProduct();
 
-                        $newVerpakkingsEenheid->verpakkingseenheid_id = $verpakkingsEenheden[$i];
-                        $newVerpakkingsEenheid->productNr = $productNrs[$i];
-                        $newVerpakkingsEenheid->hoeveelheid = $verpakkingsAantallen[$i];
+                                    $newVerpakkingsEenheid->verpakkingseenheid_id = $VPEs[$key];
+                                    $newVerpakkingsEenheid->productNr = $productNrs[$i];
+                                    $newVerpakkingsEenheid->hoeveelheid = $amount;
 
-                        $newVerpakkingsEenheid->save();
-                    }
+                                    $newVerpakkingsEenheid->save();
+                                }
+                                $tellerVPE++;
+                                $found = true;
+                            }else{
+                                $found = true;
+                            }
+                        }else{
+                            $tellerVPE++;
+                        }
+                    } while ($found == false);
 
                     if(sizeof($relatedProductsSubs[$i]) > 0 && $relatedProductsSubs[$i] != null && $relatedProductsSubs[$i] != ""){
 

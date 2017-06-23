@@ -71,4 +71,19 @@ class UploadController extends Controller
         $result = $uploader->handleDelete("../../../../public/uploads");
         echo json_encode($result);
     }
+
+    public function uploadDelete(Request $request){
+        $uploader = new \UploadHandler();
+        // Specify the list of valid extensions, ex. array("jpeg", "xml", "bmp")
+        $uploader->allowedExtensions = array('jpeg', 'jpg', 'png'); // all files types allowed by default
+        // Specify max file size in bytes.
+        $uploader->sizeLimit = null;
+        // Specify the input name set in the javascript.
+        $uploader->inputName = "qqfile"; // matches Fine Uploader's default inputName value by default
+        // If you want to use the chunking/resume feature, specify the folder to temporarily save parts.
+        $uploader->chunksFolder = "../../../../storage/chunks";
+
+        $result = $uploader->handleDelete("../../../../public/uploads");
+        echo json_encode($result);
+    }
 }

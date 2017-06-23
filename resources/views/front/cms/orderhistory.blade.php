@@ -2,7 +2,7 @@
 @section('content')
     <div class="row rowheaderyellow">
         <div class="col-md-12 text-center">
-            <h1 class="headerpage">Offerte / Order geschiedenis</h1>
+            <h1 class="headerpage">Order geschiedenis</h1>
         </div>
     </div>
     <div class="row spacerbig"></div>

@@ -1,9 +1,15 @@
 @extends('front.template.main')
 @section('content')
     <div class="row spacerbig"></div>
+    <div class="row">
+        <div class="col-md-2">
 
+        </div>
+        <div class="col-md-8">
+            {!! Breadcrumbs::render('productDetailsSub',$productId,'d') !!}
+        </div>
+    </div>
     <div class="container">
-    {!! Breadcrumbs::render('productDetailsSub',$productId,'d') !!}
         <div class="row">
             <div class="col-md-6">
                 <div class="row">
@@ -53,64 +59,63 @@
                             @endif
                         </p>
                         <div class="spacersmallest"></div>
-                        <p id="verpakkingseenheid"><b>Verpakkingseenheid:</b> {{$product->verpakkingsEenheid}}</p>
-                        <div class="spacersmallest"></div>
                         @if($product->productNrSingle == null && $product->productNrSingle == "")
                         <h4 class="optionsproducts">Options</h4>
+                            <div class="row">
+                                {{--Set afmeting selector--}}
+                                <?php if(count($product->params) != 0 && $product->params[0]->afmeting != "NULL" && $product->params[0]->afmeting != ""){?>
+                                <div class="col-md-4">
+                                    <div id="dropdownafmeting" class="dropdown dropdownproductdetail">
+                                        <button id="dropdownButton" class="btn btn-secondary dropdown-toggle nowrapnormal textdropdown" type="button" data-toggle="dropdown">Kies een afmeting<span class="caret"></span></button>
+                                        <ul id="afmetingParameters" class="dropdown-menu">
+                                            <input type="hidden" class="parametervalue" data-param-column="afmeting" value=""/>
+                                            <?php $afmetingarray = array();?>
+                                            @foreach($product->params as $key => $param)
+                                                <?php if(!in_array($param->afmeting,$afmetingarray)){?>
+                                                <li><a href="#" class="afmetingItem paramItemSelect itemDisabled" data-param-id="{{$param->id}}"  data-param-value="{{$param->afmeting}}" data-param-text-value="{{$param->afmeting}}" data-type="true" data-param-key="{{$key}}">{{$param->afmeting}}</a></li>
+                                                <?php $afmetingarray[] = $param->afmeting;}?>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                                <?php }?>
+                                <?php if(count($product->params) != 0 && $product->params[0]->colorId != "NULL" && $product->params[0]->colorId != ""){?>
+                                    <div class="col-md-4">
+                                        <div id="dropdowncolor" class="dropdown dropdownproductdetail">
+                                            <button id="dropdownButton" class="btn btn-secondary dropdown-toggle nowrapnormal textdropdown" type="button" value="" data-toggle="dropdown">Kies een kleur<span class="caret"></span></button>
+                                            <ul id="colorsProductDetail" class="dropdown-menu">
+                                                <input type="hidden" class="parametervalue kleurItemValue" data-param-column="colorId" value=""/>
+                                                <?php $colorarray = array();?>
+                                                @foreach($product->params as $key => $param)
+                                                    <?php if(!in_array($param->colorId,$colorarray)){?>
+                                                    <li><a href="#" class="kleurItem paramItemSelect itemDisabled" data-param-id="{{$param->id}}" data-param-value="{{$param->colorId}}" data-param-text-value="{{$param->naam_nl}} <i style='background-color: {{$param->hex}}'></i>" data-param-key="{{$key}}" data-product-nr="{{$param->productNr}}" >{{$param->naam_nl}}<i style="background-color: {{$param->hex}}"></i></a></li>
+                                                    <?php $colorarray[] = $param->colorId;}?>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="colorProductNr" value="">
+                                <?php }?>
+                                <?php if(count($product->params) != 0 && $product->params[0]->coatingId != "NULL" && $product->params[0]->coatingId != ""){?>
+                                <div class="col-md-4">
+                                    <div id="dropdowncoating" class="dropdown dropdownproductdetail">
+                                        <button id="dropdownButton" class="btn btn-secondary dropdown-toggle nowrapnormal textdropdown" type="button" value="" data-toggle="dropdown">Kies een coating<span class="caret"></span></button>
+                                        <ul id="coatingParameters" class="dropdown-menu">
+                                            <input type="hidden" class="parametervalue" data-param-column="coatingId" value=""/>
+                                            <?php $coatingarray = array();?>
+                                            @foreach($product->params as $key => $param)
+                                                <?php if(!in_array($param->coatingId,$coatingarray)){?>
+                                                <li><a href="#" class="coatingItem paramItemSelect itemDisabled" data-param-id="{{$param->id}}" data-param-value="{{$param->coatingId}}" data-param-text-value="{{$param->coatingnaam_nl}}" data-param-key="{{$key}}" >{{$param->coatingnaam_nl}}</a></li>
+                                                <?php $coatingarray[] = $param->coatingId;}?>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="row spacersmall"></div>
+                                <?php }?>
+                            </div>
                         @endif
-                        <?php if(count($product->params) != 0 && $product->params[0]->afmeting != "NULL" && $product->params[0]->afmeting != ""){?>
-
-                        <div id="dropdownafmeting" class="dropdown">
-                            <button id="dropdownButton" class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">Kies een afmeting<span class="caret"></span></button>
-                            <ul id="afmetingParameters" class="dropdown-menu">
-                                <input type="hidden" class="parametervalue" data-param-column="afmeting" value=""/>
-                                <?php $afmetingarray = array();?>
-                                @foreach($product->params as $key => $param)
-                                    <?php if(!in_array($param->afmeting,$afmetingarray)){?>
-                                    <li><a href="#" class="afmetingItem paramItemSelect itemDisabled" data-param-id="{{$param->id}}"  data-param-value="{{$param->afmeting}}" data-param-text-value="{{$param->afmeting}}" data-type="true" data-param-key="{{$key}}">{{$param->afmeting}}</a></li>
-                                    <?php $afmetingarray[] = $param->afmeting;}?>
-                                @endforeach
-                            </ul>
-                        </div>
-                        <div class="row spacersmall"></div>
-                        <?php }?>
-
-                        <?php if(count($product->params) != 0 && $product->params[0]->colorId != "NULL" && $product->params[0]->colorId != ""){?>
-                        <div class="row">
-                            <div class="col-md-1">
-                                <p><b class="leftfloater">Kleur: </b></p>
-                            </div>
-                            <div class="col-md-9">
-                                <ul id="colorsProductDetail">
-                                    <?php $colorarray = array();?>
-                                    <input type="hidden" class="parametervalue kleurItemValue" data-param-column="colorId" value=""/>
-                                    @foreach($product->params as $key => $param)
-                                        <?php if(!in_array($param->colorId,$colorarray)){?>
-                                        <li style="background-color: {{$param->hex}}" class="kleurItem itemDisabled paramItemSelect" data-param-id="{{$param->id}}" data-param-value="{{$param->colorId}}" data-product-nr="{{$param->productNr}}" data-param-key="{{$key}}" data-type="true"  title="{{$param->naam_nl}}"></li>
-                                        <?php $colorarray[] = $param->colorId;}?>
-                                    @endforeach
-                                </ul>
-                            </div>
-                            <input type="hidden" id="colorProductNr" value="">
-                        </div>
-                        <div class="row spacersmall"></div>
-                        <?php }?>
-
-                        <?php if(count($product->params) != 0 && $product->params[0]->coatingId != "NULL" && $product->params[0]->coatingId != ""){?>
-                        <div id="dropdowncoating" class="dropdown">
-                            <button id="dropdownButton" class="btn btn-secondary dropdown-toggle" type="button" value="" data-toggle="dropdown">Kies een coating<span class="caret"></span></button>
-                            <ul id="coatingParameters" class="dropdown-menu">
-                                <input type="hidden" class="parametervalue" data-param-column="coatingId" value=""/>
-                                <?php $coatingarray = array();?>
-                                @foreach($product->params as $key => $param)
-                                    <?php if(!in_array($param->coatingId,$coatingarray)){?>
-                                    <li><a href="#" class="coatingItem paramItemSelect itemDisabled" data-param-id="{{$param->id}}" data-param-value="{{$param->coatingId}}" data-param-text-value="{{$param->coatingnaam_nl}}" data-param-key="{{$key}}" >{{$param->coatingnaam_nl}}</a></li>
-                                    <?php $coatingarray[] = $param->coatingId;}?>
-                                @endforeach
-                            </ul>
-                        </div>
-                        <div class="row spacersmall"></div>
-                        <?php }?>
+                        <div class="row spacersmallest"></div>
                         <a id="removeSelection" class="btn btn-danger" style="display:none;width:150px;">Selectie verwijderen</a>
                         <div class="row spacerbig"></div>
                         <p><b>Aantal: </b><input id="amounttextbox" name="amounttextbox" value="1" type="text" class="form-control" placeholder="Aantal" style="width:70px;"/></p>
@@ -124,9 +129,31 @@
         <div class="row spacersmall"></div>
         <div class="row">
             <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading filterheading">Gedetailleerde informatie</div>
-                    <div class="panel-body"><?php echo $product->{'beschrijving_lang_' . $lang}?></div>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item active">
+                        <a class="nav-link active" data-toggle="tab" href="#info" role="tab">Gedetailleerde informatie</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#verpakkings" role="tab">Verpakkingseenheden</a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane active" id="info" role="tabpanel">
+                        <?php if($product->{"beschrijving_lang_" . $lang} == null || $product->{"beschrijving_lang_" . $lang} == ""){?>
+                        <p>Geen grote beschrijving om weer te geven.</p>
+                        <?php }else{ ?>
+                        <p><?php echo $product->{"beschrijving_lang_" . $lang}?></p>
+                        <?php }?>
+                    </div>
+                    <div class="tab-pane" id="verpakkings" role="tabpanel">
+                        <?php if($product->verpakkingsEenheid == null || $product->verpakkingsEenheid == ""){?>
+                            <p>Placeholder verpakkingseenheden</p>
+                        <?php }else{ ?>
+                            <p>{{$product->verpakkingsEenheid}}</p>
+                        <?php }?>
+                    </div>
                 </div>
             </div>
         </div>
@@ -219,20 +246,20 @@
         var htmlImageKlein = "";
         var tellerActiveProductImage = 0;
 
-        console.log("public_path :",base_url);
+        console.log(base_url);
 
         $(document).on('click', '.paramItemSelect', function(){
             if($(this).hasClass("itemDisabled")){
-                if($(this).hasClass("kleurItem")){
+                /*if($(this).hasClass("kleurItem")){
                     $(".kleurItem").each(function() {
                         $(this).css("border","none");
                     });
                     $(this).css("border","2px #FFCC00 solid");
                     $(this).parent().find(".parametervalue").val($(this).data("paramValue"));
-                }else{
+                }else{*/
                     $(this).parent().parent().find(".parametervalue").val($(this).data("paramValue"));
                     $(this).parent().parent().parent().find("#dropdownButton").html($(this).data("paramTextValue") + '<span class="caret"></span>');
-                }
+                /*}*/
                 var allParamsSet = true;
                 $(".parametervalue").each(function(){
                     if($(this).val() == ""){
@@ -257,7 +284,7 @@
                     });
                     $.ajax({
                         type: "GET",
-                        url: "{{ url('/getRelatedItems')}}",
+                        url: "/getRelatedItems",
                         data: {"productNr": paramsSelected[0].productNr,"productId": paramsSelected[0].productId},
                         cache: false,
                         success: function(data){
@@ -296,7 +323,7 @@
                                 var $productTemplate = $("#relatedProductTemplate").clone();
 
                                 $productTemplate.find("#linkProductNr").attr("href","/productdetailsSubProduct/" + product.productId + "/" + product.productNr2);
-                                $productTemplate.find(".productimg").css('background-image'," "+base_url+"/uploads/" + product.directory + "/" + product.naam + "");
+                                $productTemplate.find(".productimg").css('background-image',"url('/uploads/" + product.directory + "/" + product.naam + "')");
                                 $productTemplate.find(".titleProduct").html(product.naam_nl + " - " + product.afmeting);
                                 $productTemplate.find(".descriptionProduct").html(product.beschrijving_nl);
 
@@ -326,7 +353,7 @@
                                     var $productTemplate = $("#relatedProductTemplate").clone();
 
                                     $productTemplate.find("#linkProductNr").attr("href","/productdetailsSubProduct/" + product.productId + "/" + product.productNr2);
-                                    $productTemplate.find(".productimg").css('background-image',"url('"+base_url+"/uploads/" + product.directory + "/" + product.naam + "')");
+                                    $productTemplate.find(".productimg").css('background-image',"url('/uploads/" + product.directory + "/" + product.naam + "')");
                                     $productTemplate.find(".titleProduct").html(product.naam_nl + " - " + product.afmeting);
                                     $productTemplate.find(".descriptionProduct").html(product.beschrijving_nl);
 
@@ -416,7 +443,7 @@
         $(document).on('click', '#removeSelection', function(){
             $(".parametervalue").each(function(){
                 $(this).val("");
-                if($(this).data("paramColumn") == "colorId"){
+                /*if($(this).data("paramColumn") == "colorId"){
                     $("#colorsProductDetail").find(".paramItemSelect").remove();
                     var alreadyDisplayed = [];
                     for(var p in params){
@@ -427,7 +454,24 @@
                             alreadyDisplayed[p] = params[p].colorId;
                         }
                     }
+                }*/
+
+
+                if($(this).data("paramColumn") == "colorId"){
+                    $("#colorsProductDetail").find(".paramItemSelect").remove();
+                    var alreadyDisplayed = [];
+                    for(var p in params){
+                        if ($.inArray(params[p].colorId, alreadyDisplayed) != -1){
+
+                        }else {
+                            $("#colorsProductDetail").append('<li><a href="#" class="kleurItem paramItemSelect itemDisabled" data-param-id="' + params[p].id + '" data-param-value="' + params[p].colorId + '" data-param-text-value="' + params[p].naam_nl + ' <i style=\'background-color: ' + params[p].hex + '\'></i>" data-param-key="' + p + '" data-product-nr="' + params[p].productNr + '">' + params[p].naam_nl + '<i style="background-color:' + params[p].hex + '"></i></a></li>');
+                            alreadyDisplayed[p] = params[p].colorId;
+                        }
+                    }
+                    $(this).parent().parent().find("#dropdownButton").html('Kies een kleur <span class="caret"></span>');
                 }
+
+
                 if($(this).data("paramColumn") == "afmeting"){
                     $("#afmetingParameters").find(".paramItemSelect").remove();
                     var alreadyDisplayed = [];
@@ -441,6 +485,7 @@
                     }
                     $(this).parent().parent().find("#dropdownButton").html('Kies een afmeting <span class="caret"></span>');
                 }
+
                 if($(this).data("paramColumn") == "coatingId"){
                     $("#coatingParameters").find(".paramItemSelect").remove();
                     var alreadyDisplayed = [];
@@ -600,7 +645,7 @@
                 var amount = $("#amounttextbox").val();
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('/addtocart/single')}}",
+                    url: "/addtocart/single",
                     data: {"productNr": singleProductNr, "amount": amount},
                     cache: false,
                     success: function(data){
@@ -630,8 +675,7 @@
                 console.log(paramsSelected);
                 $.ajax({
                     type: "GET",
-                    
-                    url:"{{ url('/addtocart/afmeting')}}",
+                    url: "/addtocart/afmeting",
                     data: {"productNr": paramsSelected[0].productNr, "amount": amount},
                     cache: false,
                     success: function(data){

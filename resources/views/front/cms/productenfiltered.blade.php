@@ -1,7 +1,14 @@
 @extends('front.template.main')
 @section('content')
-
     <div class="row spacerbig"></div>
+    <div class="row">
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-8">
+            {!! Breadcrumbs::render('subcategoryFilter', $categoryClicked) !!}
+        </div>
+    </div>
     <div class="container">
         <div class="row">
             <div class="col-md-3">
@@ -17,7 +24,7 @@
                                         @foreach($categories as $category)
                                             <li class="margintrue">
                                                 <label>
-                                                    <a href="{{ url('/subCategoryShow') }}/{{$category->id}}/{{$tellerFilter}}" data-toggle="collapse" data-target="#{{$tellerFilter}}" class="collapsed" data-param-id="{{$category->id}}" aria-expanded="false"><?php echo $category->{'naam_' . $lang};?>@if($category->subCategories != null)<i class="fa fa-plus" style="margin-left:10px;"></i>@endif</a>
+                                                    <a href="/subCategoryShow/{{$category->id}}/{{$tellerFilter}}" data-toggle="collapse" data-target="#{{$tellerFilter}}" class="collapsed" data-param-id="{{$category->id}}" aria-expanded="false"><?php echo $category->{'naam_' . $lang};?>@if($category->subCategories != null)<i class="fa fa-plus" style="margin-left:10px;"></i>@endif</a>
                                                 </label>
                                                 @if($category->subCategories != null)
                                                     <ul id="{{$tellerFilter}}" data-param-id="{{$category->id}}" class="collapseItem collapse" aria-expanded="false" style="height: 0px;">
@@ -25,20 +32,20 @@
                                                             <div class="checkbox categories" style="margin-left:10px;">
                                                                 <label>
                                                                     <?php if(sizeof($subCategory->subCategories) == 0){?>
-                                                                    <input type="checkbox" data-url="{{ url('/subcategoryFilter')}}/{{$subCategory->id}}"  data-param-id="{{$subCategory->id}}" class="subCategory" value="">
+                                                                    <input type="checkbox" data-url="/subcategoryFilter/{{$subCategory->id}}"  data-param-id="{{$subCategory->id}}" class="subCategory" value="">
                                                                     <span class="cr"></span>
-                                                                    <li><a href="{{ url('/subcategoryFilter') }}/{{$subCategory->id}}" data-param-id="{{$subCategory->id}}"><?php echo $subCategory->{'naam_' . $lang};?><span></span></a></li>
+                                                                    <li><a href="/subcategoryFilter/{{$subCategory->id}}" data-url="/subcategoryFilter/{{$subCategory->id}}" data-param-id="{{$subCategory->id}}" class="subCategoryhref"><?php echo $subCategory->{'naam_' . $lang};?><span></span></a></li>
                                                                     <?php }else{?>
-                                                                    <input type="checkbox" data-url="url('/subSubCategoryShow')/{{$subCategory->id}}/{{$tellerFilterSub}}" data-toggle="collapse" data-target="#{{$tellerFilterSub}}"  data-param-id="{{$subCategory->id}}" class="subCategory" value="">
+                                                                    <input type="checkbox" data-url="/subSubCategoryShow/{{$subCategory->id}}/{{$tellerFilterSub}}" data-toggle="collapse" data-target="#{{$tellerFilterSub}}"  data-param-id="{{$subCategory->id}}" class="subCategory" value="">
                                                                     <span class="cr"></span>
-                                                                    <a href="{{ url('/subSubCategoryShow') }}/{{$subCategory->id}}/{{$tellerFilterSub}}" data-toggle="collapse" data-target="#{{$tellerFilterSub}}" class="collapsed" data-param-id="{{$category->id}}" aria-expanded="false"><?php echo $subCategory->{'naam_' . $lang};?>@if($subCategory->subCategories != null)<i class="fa fa-plus" style="margin-left:10px;"></i>@endif</a>
+                                                                    <a href="/subSubCategoryShow/{{$subCategory->id}}/{{$tellerFilterSub}}" data-toggle="collapse" data-target="#{{$tellerFilterSub}}" class="collapsed" data-param-id="{{$category->id}}" aria-expanded="false"><?php echo $subCategory->{'naam_' . $lang};?>@if($subCategory->subCategories != null)<i class="fa fa-plus" style="margin-left:10px;"></i>@endif</a>
                                                                     <ul id="{{$tellerFilterSub}}" data-param-id="{{$subCategory->id}}" class="collapseItem collapse" aria-expanded="false" style="height: 0px;">
                                                                         @foreach($subCategory->subCategories as $subSubCategory)
                                                                             <div class="checkbox categories" style="margin-left:10px;">
                                                                                 <label>
                                                                                     <input type="checkbox" class="subCategory" data-param-id="{{$subSubCategory->id}}" value="">
                                                                                     <span class="cr"></span>
-                                                                                    <li><a href="{{ url('/subcategoryFilter') }}/{{$subSubCategory->id}}" data-param-id="{{$subSubCategory->id}}"><?php echo $subSubCategory->{'naam_' . $lang};?><span></span></a></li>
+                                                                                    <li><a href="/subcategoryFilter/{{$subSubCategory->id}}" data-param-id="{{$subSubCategory->id}}"><?php echo $subSubCategory->{'naam_' . $lang};?><span></span></a></li>
                                                                                 </label>
                                                                             </div>
                                                                         @endforeach
@@ -147,7 +154,6 @@
                     </div>
                 </div>
             </div>
-            {!! Breadcrumbs::render('subcategoryFilter', $categoryClicked) !!}
             <div id="allproductscontainer" class="col-md-9">
                 {!! $html !!}
             </div>
@@ -227,6 +233,12 @@
                 $(this).prop('checked', true);
             }
         });
+
+        $(document).on('click', '.subCategoryhref', function(event) {
+            event.preventDefault();
+            $(this).parent().prev().prev().trigger("click");
+        });
+
         console.log(filterData);
         $(document).on('click', '.subCategory', function() {
             console.log($(this).is(':checked'));
@@ -240,7 +252,7 @@
                 filterData.selectedAfmetingen = [];
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('/filteredProductsPOST')}}",
+                    url: "/filteredProductsPOST",
                     data: {"filterData": JSON.stringify(filterData)},
                     cache: false,
                     success: function(data){
@@ -281,7 +293,7 @@
                 filterData.selectedAfmetingen = [];
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('/filteredProductsPOST')}}",
+                    url: "/filteredProductsPOST",
                     data: {"filterData": JSON.stringify(filterData)},
                     cache: false,
                     success: function(data){
@@ -323,7 +335,7 @@
                 filterData["selectedAfmetingen"].push(clickedAfmeting);
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('/filteredProductsPOST')}}",
+                    url: "/filteredProductsPOST",
                     data: {"filterData": JSON.stringify(filterData)},
                     cache: false,
                     success: function(data){
@@ -338,7 +350,7 @@
                 filterData.selectedAfmetingen.splice(index, 1);
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('/filteredProductsPOST')}}",
+                    url: "/filteredProductsPOST",
                     data: {"filterData": JSON.stringify(filterData)},
                     cache: false,
                     success: function(data){
@@ -357,7 +369,7 @@
                 filterData["selectedColors"].push(clickedColor);
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('/filteredProductsPOST')}}",
+                    url: "/filteredProductsPOST",
                     data: {"filterData": JSON.stringify(filterData)},
                     cache: false,
                     success: function(data){
@@ -372,7 +384,7 @@
                 filterData.selectedColors.splice(index, 1);
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('/filteredProductsPOST')}}",
+                    url: "/filteredProductsPOST",
                     data: {"filterData": JSON.stringify(filterData)},
                     cache: false,
                     success: function(data){
@@ -390,7 +402,7 @@
                 filterData["selectedCoatings"].push(clickedCoating);
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('/filteredProductsPOST')}}",
+                    url: "/filteredProductsPOST",
                     data: {"filterData": JSON.stringify(filterData)},
                     cache: false,
                     success: function(data){
@@ -405,7 +417,7 @@
                 filterData.selectedCoatings.splice(index, 1);
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('/filteredProductsPOST')}}",
+                    url: "/filteredProductsPOST",
                     data: {"filterData": JSON.stringify(filterData)},
                     cache: false,
                     success: function(data){

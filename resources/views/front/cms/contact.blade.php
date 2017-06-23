@@ -5,9 +5,17 @@
             <h1 class="headerpage">CONTACT</h1>
         </div>
     </div>
+    <div class="row spacersmall"></div>
+    <div class="row">
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-8">
+            {!! Breadcrumbs::render('contact') !!}
+        </div>
+    </div>
     <div class="row spacerbig"></div>
     <div class="container">
-        {!! Breadcrumbs::render('contact') !!}
         <div class="row">
             <div class="col-md-6">
                 <div class="row">

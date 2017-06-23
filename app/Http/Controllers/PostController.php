@@ -270,6 +270,8 @@ class PostController extends Controller
         return route('admin.page.edit', $pageId);
     }
 
+
+
     function registerUser(Request $request){
 
         $adminmailConfig = Config::where('key','admin_email')->first();
@@ -363,7 +365,50 @@ class PostController extends Controller
     }
 
     function contactFormSend(Request $request){
+        $adminmailConfig = Config::where('key','admin_email')->first();
 
+        $admin_email = $adminmailConfig->value;
+
+        $onderwerpOwner = $request->input('subject');
+
+        $naam = $request->input('name');
+
+        $messageSender = $request->input('tekst');
+
+        $emailSender = $request->input('email');
+
+        $tableUserInfo = "";
+
+        $tableUserInfo .= '<div style="overflow-x:auto;">
+                        <table style="max-width:680px;" border="1px gray solid">
+                            <tbody>';
+
+        $tableUserInfo .= '<tr>
+                               <td>Naam: </td>
+                               <td>' . $naam . '</td>
+                           </tr>
+                           <tr>
+                                <td>E-mail: </td>
+                                <td>' . $emailSender . '</td>
+                            </tr>
+                            <tr>
+                                <td>Bericht: </td>
+                                <td>' . $messageSender . '</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>';
+
+        $headers = array('From: no-reply@hermicdev.be',"Reply-To: " . $emailSender, "Content-Type: text/html; charset=ISO-8859-1");
+        $headers = implode("\r\n", $headers);
+        Session::put('cartItems', null);
+        Session::put('cartAmount', null);
+        //mail to owner
+        mail($admin_email, $onderwerpOwner, $tableUserInfo, $headers);
+
+        $page = Page::where('slug', 'contact')->first();
+
+        return view('front.cms.contact', ['page' => $page]);
     }
 
     function sendOrder(Request $request){
@@ -404,7 +449,7 @@ class PostController extends Controller
                 $newVisitorAddress->straat = $request->input('straatnaam');
                 $newVisitorAddress->huisnummer = $request->input('huisnummer');
                 $newVisitorAddress->stad = $request->input('plaats');
-                $newVisitorAddress->provincie = $request->input('provincie');
+                $newVisitorAddress->postcode = $request->input('postcode');
                 $newVisitorAddress->land = $request->input('land');
                 if($request->has('isdefault') && $request->has('isdefault') == 1){
                     $newVisitorAddress->isdefault = 1;
