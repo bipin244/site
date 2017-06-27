@@ -20,6 +20,7 @@ use App\ProductRelated;
 use App\Post;
 use Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class PageController extends Controller
 {
@@ -1684,7 +1685,10 @@ class PageController extends Controller
         return view('front.cms.cart', ['page' => $page, 'producten' => $cartItems2, 'productenSingle' => $cartItems3, 'lang' => $languageSession, 'tellerDataSlide' => 0, 'tellerActive' => 0]);
 
     }
-
+    public function subCategoryClick($id){
+        // return view
+        return Redirect::to('subcategoryFilter/'.$id);
+    }
     public function productDetails(Request $request, $id)
     {
 

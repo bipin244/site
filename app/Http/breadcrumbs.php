@@ -33,7 +33,25 @@ Breadcrumbs::register('subcategoryFilter', function($breadcrumbs,$id)
     $breadcrumbs->parent('Home');
     $breadcrumbs->push($subCat->naam_nl, route('subcategoryFilter', $id));
 });
-
+// Home > Test2
+Breadcrumbs::register('categoryWithSubcategory', function($breadcrumbs,$id)
+{
+    
+    $breadcrumbs->parent('Home');
+    $Cat = Category::find($id);
+    if($Cat['subcategoryId']){
+        $subCat = Category::find($Cat['subcategoryId']);
+    }else{
+        $subCat = $Cat; 
+    }
+    $breadcrumbs->push($subCat->naam_nl, route('subcategoryFilter', $id));
+    if($Cat['subcategoryId']){
+        $breadcrumbs->push($Cat->naam_nl,route('subCategory',$Cat['id']));
+    }
+});
+function test(){
+    echo "test";
+}
 // Home > poortframes
 Breadcrumbs::register('subCategoryShow', function($breadcrumbs, $id, $clickedCategory)
 {
@@ -83,14 +101,14 @@ Breadcrumbs::register('productDetailsSub', function($breadcrumbs, $productId, $p
     }else{
         $keyOfCat = 0;
     }
-    
     $subcategoryFilter = Session::get('subcategoryFilter')?Session::get('subcategoryFilter'):$getCat[$keyOfCat]->category_id;
     if($showCat){
         $breadcrumbs->parent('subCategoryShow',$subcategoryFilter,0);
     }else{
-        $breadcrumbs->parent('subcategoryFilter',$subcategoryFilter);
+        $breadcrumbs->parent('categoryWithSubcategory',$subcategoryFilter);
     }
-
+    // echo "<pre>";
+    // print_r($getCat);exit;
     $breadcrumbs->push($subCat->naam_nl, route('productdetailsSubProduct',['productId'=>$productId,'productNr'=> $productNr]));
     
     

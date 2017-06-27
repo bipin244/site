@@ -16,6 +16,7 @@ Route::get('/subCategoryShow/{id}/{clickedCategory}', ['uses' => 'PageController
 
 Route::get('/subcategoryFilter/{id}', ['uses' => 'PageController@subCategoryFilter', 'as' => 'subcategoryFilter']);
 Route::get('/subSubCategoryShow/{id}/{clickedCategory}','PageController@subSubCategoryShow');
+Route::get('/subCategory/{id}',['uses'=>'PageController@subCategoryClick','as'=>'subCategory']);
 Route::get('/filteredProductsPOST', ['uses' => 'PageController@filteredProductsPOST', 'as' => 'filteredProductsPOST']);
 Route::get('/productdetailsSubProduct/{productId}/{productNr}', ['uses' => 'PageController@productDetailsSub', 'as' => 'productdetailsSubProduct']);
 Route::get('/updateText', 'PageController@updateText');
